@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container, chakra, Stack, Text, Button, Box } from "@chakra-ui/react";
-
+import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 
 export default function LandingPage() {
@@ -45,18 +45,20 @@ export default function LandingPage() {
           w={{ base: "100%", sm: "auto" }}
           spacing={5}
         >
-          <Button
-            border="1.2px solid #ffc808"
-            _hover={{ bg: "#e6b307" }}
-            bg="white"
-            variant="outline"
-            rounded="md"
-            size="lg"
-            height="3.5rem"
-            fontSize="1.2rem"
-          >
-            Login
-          </Button>
+          <Link to="/login">
+            <Button
+              border="1.2px solid #ffc808"
+              _hover={{ bg: "#e6b307" }}
+              bg="white"
+              variant="outline"
+              rounded="md"
+              size="lg"
+              height="3.5rem"
+              fontSize="1.2rem"
+            >
+              Login
+            </Button>
+          </Link>
         </Stack>
       </Stack>
     </Container>
