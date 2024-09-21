@@ -1,15 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import LandingPage from './pages/LandingPage';
-import LoginPage from './pages/LoginPage';
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import LandingPage from "./pages/LandingPage";
+import Home from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
+import SidebarWithHeader from "./components/SidebarWithHeader";
 
 function App() {
-  return(
+  return (
     // <LandingPage />
-    <LoginPage />
+    // <LoginPage />
+    // <SidebarWithHeader />
+    <Home />
   );
 }
 
-export default App
+export default App;

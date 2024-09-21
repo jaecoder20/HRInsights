@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import LandingPage from "./pages/LandingPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import SidebarWithHeader from "./components/SidebarWithHeader.tsx";
+import Home from "./pages/Home.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/home",
+    element: <Home />,
   },
 ]);
 createRoot(document.getElementById("root")).render(
