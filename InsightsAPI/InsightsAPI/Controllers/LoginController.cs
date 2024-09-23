@@ -43,7 +43,6 @@ namespace InsightsAPI.Controllers
             return Ok(new
             {
                 message = "User logged in successfully",
-                user = user,
                 employee = employeeAccount,
                 token = _tokenService.Generate(employeeAccount)
             });

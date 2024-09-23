@@ -17,7 +17,7 @@ namespace InsightsAPI.Controllers
             _employeeRepository = employeeRepository;
         }
 
-        [Authorize]
+        [Authorize(Roles = "HR Administrator, Employee")]
         [HttpGet]
         public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
@@ -35,7 +35,7 @@ namespace InsightsAPI.Controllers
             });
 
         }
-
+        [Authorize(Roles = "HR Administator, Employee")]
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Employee>>> GetEmployee(int id)
         {
@@ -53,7 +53,7 @@ namespace InsightsAPI.Controllers
             });
 
         }
-
+        [Authorize(Roles = "HR Administator")]
         [HttpPost]
         public async Task<ActionResult<Employee>> AddEmployee([FromBody] Employee employee)
         {
@@ -70,7 +70,7 @@ namespace InsightsAPI.Controllers
                 employee = addedEmployee
             });
         }
-
+        [Authorize(Roles = "HR Administator")]
         [HttpPut("{id}")]
         public async Task<ActionResult<Employee>> UpdateEmployee(int id, [FromBody] Employee employee)
         {
@@ -92,7 +92,7 @@ namespace InsightsAPI.Controllers
             }
             );
         }
-
+        [Authorize(Roles = "HR Administator")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEmployee(int id)
         {
