@@ -1,6 +1,7 @@
 ﻿using InsightsAPI.Data;
 using InsightsAPI.Entities;
 using InsightsAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace InsightsAPI.Controllers
             _employeeRepository = employeeRepository;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {

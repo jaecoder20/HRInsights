@@ -47,7 +47,15 @@ namespace InsightsAPI.Repositories
 
         public async Task<Employee> GetEmployeeAsync(int employeeId)
         {
-            return await _context.Employees.FindAsync(employeeId);
+            return await _context.Employees
+            .Include(e => e.Role)  
+            .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+        }
+        public async Task<Employee> GetEmployeeAsync(string employeeEmail)
+        {
+            return await _context.Employees
+                .Include(e => e.Role)
+                .FirstOrDefaultAsync(e => e.Email == employeeEmail);
         }
 
         public async Task<List<Employee>> GetEmployeesAsync()
