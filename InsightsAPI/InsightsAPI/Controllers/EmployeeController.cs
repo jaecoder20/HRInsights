@@ -34,7 +34,6 @@ namespace InsightsAPI.Controllers
 
         }
 
-        //To facilitate searching for specific employees
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Employee>>> GetEmployee(int id)
         {
