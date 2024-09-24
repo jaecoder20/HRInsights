@@ -68,7 +68,7 @@ export default function EmployeeCard() {
           placeholder="Search for an employee..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          width="300px"
+          width={{ base: "90%", md: "300px" }}
           bg="white"
           border="2px solid"
           borderColor="gray.300"
@@ -96,15 +96,21 @@ export default function EmployeeCard() {
           borderWidth="1px"
           borderRadius="lg"
           overflow="hidden"
-          width="auto"
-          maxW="auto"
+          width={{ base: "100%", md: "auto" }} // Full width on smaller screens
+          maxW={{ base: "100%", md: "600px" }} // Limit max width on larger screens
           bg="white"
           boxShadow="sm"
           textAlign="center"
         >
           <Stack direction="row" align="center">
             {/* Avatar */}
-            <Box bg={`#ffc80820`} p={4} borderRadius="lg" marginRight="30%">
+            <Box
+              bg={`#ffc80820`}
+              p={4}
+              borderRadius="lg"
+              marginRight={{ base: 0, md: "30%" }}
+              mb={{ base: 4, md: 0 }}
+            >
               <Avatar src={avatarUrl} size="xl" />
             </Box>
 
