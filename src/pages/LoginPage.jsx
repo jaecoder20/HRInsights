@@ -2,9 +2,8 @@
 import React, { useState, useContext } from "react";
 import axios from "../api/axios";
 import Cookies from "js-cookie";
-import authContext  from "../context/AuthProvider";
+import authContext from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
-
 
 import {
   Flex,
@@ -24,7 +23,7 @@ import { a } from "framer-motion/client";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { setAuth } = useContext(authContext);
+  // const { setAuth } = useContext(authContext);
 
   // State to manage form inputs
   const [email, setEmail] = useState("");
@@ -77,19 +76,31 @@ export default function LoginPage() {
             },
           }
         );
-        
+
         const data = response.data;
         const token = data.token;
         const employee = data.employee;
-        setAuth({ token, employee });
+        // setAuth({ token, employee });
+
+        Cookies.set("employee", JSON.stringify(employee), {
+          expires: new Date(new Date().getTime() + 15 * 60 * 1000), // 15 minutes expiration
+          secure: true,
+          sameSite: "Strict",
+        });
+
+        Cookies.set("token", token, {
+          expires: new Date(new Date().getTime() + 15 * 60 * 1000), // 15 minutes expiration
+          secure: true,
+          sameSite: "Strict",
+        });
+
         navigate("/home");
-        
         console.log(data);
       } catch (error) {
-        if(!error?.response?.data?.message) {
+        if (!error?.response?.data?.message) {
           console.log(error);
           setPasswordError("An error occurred. Please try again.");
-        }else{
+        } else {
           setPasswordError(error.response.data.message);
         }
       }

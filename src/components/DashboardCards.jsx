@@ -4,7 +4,7 @@ import axios from "../api/axios";
 import StatisticsCard from "./StatisticsCard";
 import { FiUsers, FiUserCheck, FiSmile, FiGrid } from "react-icons/fi";
 import authContext from "../context/AuthProvider";
-
+import Cookies from "js-cookie";
 const DashboardCards = () => {
   const { auth } = useContext(authContext);
   const [data, setData] = useState(null);
@@ -16,7 +16,7 @@ const DashboardCards = () => {
       try {
         const response = await axios.get("/api/report", {
           headers: {
-            Authorization: `Bearer ${auth.token}`,
+            Authorization: `Bearer ${Cookies.get("token")}`,
           },
         });
         setData(response.data.report);

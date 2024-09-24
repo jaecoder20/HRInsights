@@ -2,18 +2,22 @@ import React, { useContext, useEffect } from "react";
 import SidebarWithHeader from "../components/SidebarWithHeader";
 import authContext from "../context/AuthProvider";
 import StatisticsCard from "../components/StatisticsCard";
+import Cookies from "js-cookie";
 
 export default function Home() {
-  const { auth } = useContext(authContext);
-  const user = {
+  const employee = Cookies.get("employee")
+    ? JSON.parse(Cookies.get("employee"))
+    : null;
+  console.log(employee);
+  const currUser = {
     avatar: "https://bit.ly/broken-link",
-    name: auth.employee.firstName + " " + auth.employee.lastName,
-    accountType: auth.employee.role.roleName,
+    name: employee.firstName + " " + employee.lastName,
+    accountType: employee.role.roleName,
   };
 
   return (
     <div>
-      <SidebarWithHeader user={user} />
+      <SidebarWithHeader user={currUser} />
     </div>
   );
 }
