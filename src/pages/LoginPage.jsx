@@ -4,6 +4,7 @@ import axios from "../api/axios";
 import Cookies from "js-cookie";
 import authContext from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 
 import {
   Flex,
@@ -32,7 +33,7 @@ export default function LoginPage() {
   // State for error handling
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
+  const toast = useToast();
   // Email validation regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -95,6 +96,13 @@ export default function LoginPage() {
         });
 
         navigate("/home");
+        toast({
+          title: "Login successful.",
+          description: "You have successfully logged in.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
         console.log(data);
       } catch (error) {
         if (!error?.response?.data?.message) {
