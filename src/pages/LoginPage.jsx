@@ -3,6 +3,8 @@ import React, { useState, useContext } from "react";
 import axios from "../api/axios";
 import Cookies from "js-cookie";
 import authContext  from "../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
+
 
 import {
   Flex,
@@ -18,8 +20,10 @@ import {
   useColorModeValue,
   FormErrorMessage,
 } from "@chakra-ui/react";
+import { a } from "framer-motion/client";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const { setAuth } = useContext(authContext);
 
   // State to manage form inputs
@@ -78,8 +82,12 @@ export default function LoginPage() {
         const token = data.token;
         const employee = data.employee;
         setAuth({ token, employee });
+        navigate("/home");
+        
+        console.log(data);
       } catch (error) {
         if(!error?.response?.data?.message) {
+          console.log(error);
           setPasswordError("An error occurred. Please try again.");
         }else{
           setPasswordError(error.response.data.message);
