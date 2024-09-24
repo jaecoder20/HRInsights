@@ -105,7 +105,6 @@ export default function EmployeeCard() {
           <Stack direction="row" align="center">
             {/* Avatar */}
             <Box
-              bg={`#ffc80820`}
               p={4}
               borderRadius="lg"
               marginRight={{ base: 0, md: "30%" }}
