@@ -12,7 +12,7 @@ export default function Home() {
   const currUser = {
     avatar: "https://bit.ly/broken-link",
     name: employee.firstName + " " + employee.lastName,
-    accountType: employee.role.roleName,
+    accountType: employee.role,
   };
 
   return (

@@ -1,4 +1,8 @@
-﻿namespace InsightsAPI.Entities
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace InsightsAPI.Entities
 {
     public enum EmployeeStatus
     {
@@ -9,7 +13,10 @@
 
     public class Employee
     {
-        public int EmployeeId { get; set; }
+        [Key]
+        [JsonIgnore]
+        public int Id { get; set; }
+        public string EmployeeId { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Email { get; set; }
@@ -18,11 +25,7 @@
         public required DateTime DateOfHire { get; set; }
         public required decimal Salary { get; set; }
         public required EmployeeStatus Status { get; set; }
-        // Foreign key to the Role
-        public int RoleId { get; set; }
-
-        //  Employee belongs to one Role.
-        public Role Role { get; set; }
+        public string Role { get; set; }
     }
 
 }

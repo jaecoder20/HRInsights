@@ -13,24 +13,31 @@ import axios from "../api/axios";
 import Cookies from "js-cookie";
 
 export default function NewEmployee() {
+  const [messsageReceived, setMessageReceived] = useState("");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    position: "",
-    dateOfHire: "",
-    salary: "",
-    status: "",
-    roleId: "",
+    EmployeeId: "",
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    PhoneNumber: "",
+    Position: "",
+    DateOfHire: "",
+    Salary: 0.0,
+    Status: 0,
+    Role: "",
   });
   const toast = useToast();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
+        ...prevData,
+        [name]:
+          name === "Salary"
+            ? parseFloat(value) // Convert salary to decimal/float
+            : name === "Status"
+            ? parseInt(value) // Convert status to integer
+            : value, // Leave other fields as strings
     }));
   };
 
@@ -44,7 +51,8 @@ export default function NewEmployee() {
         },
       });
       console.log(response.data);
-
+      console.log(formData);
+      setMessageReceived(response.data.message);
       toast({
         title: "Employee added successfully.",
         status: "success",
@@ -53,21 +61,23 @@ export default function NewEmployee() {
       });
 
       setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        position: "",
-        dateOfHire: "",
-        salary: "",
-        status: "",
-        roleId: "",
+        EmployeeId: "",
+        FirstName: "",
+        LastName: "",
+        Email: "",
+        PhoneNumber: "",
+        Position: "",
+        DateOfHire: "",
+        Salary: 0.0,
+        Status: 0,
+        Role: "",
       });
     } catch (error) {
+      console.log(formData);
       console.error(error);
       toast({
         title: "Error adding employee.",
-        description: response.data.message || "An error occurred.",
+        description: messsageReceived || "An error occurred.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -87,11 +97,21 @@ export default function NewEmployee() {
       <form onSubmit={handleSubmit}>
         <Stack spacing={4}>
           <FormControl isRequired>
+            <FormLabel>Employee ID</FormLabel>
+            <Input
+              type="text"
+              name="EmployeeId"
+              value={formData.EmployeeId}
+              onChange={handleInputChange}
+              placeholder="Enter employee ID"
+            />
+          </FormControl>
+          <FormControl isRequired>
             <FormLabel>First Name</FormLabel>
             <Input
               type="text"
-              name="firstName"
-              value={formData.firstName}
+              name="FirstName"
+              value={formData.FirstName}
               onChange={handleInputChange}
               placeholder="Enter first name"
             />
@@ -101,8 +121,8 @@ export default function NewEmployee() {
             <FormLabel>Last Name</FormLabel>
             <Input
               type="text"
-              name="lastName"
-              value={formData.lastName}
+              name="LastName"
+              value={formData.LastName}
               onChange={handleInputChange}
               placeholder="Enter last name"
             />
@@ -112,8 +132,8 @@ export default function NewEmployee() {
             <FormLabel>Email</FormLabel>
             <Input
               type="email"
-              name="email"
-              value={formData.email}
+              name="Email"
+              value={formData.Email}
               onChange={handleInputChange}
               placeholder="Enter email"
             />
@@ -123,8 +143,8 @@ export default function NewEmployee() {
             <FormLabel>Phone Number</FormLabel>
             <Input
               type="text"
-              name="phoneNumber"
-              value={formData.phoneNumber}
+              name="PhoneNumber"
+              value={formData.PhoneNumber}
               onChange={handleInputChange}
               placeholder="Enter phone number"
             />
@@ -134,8 +154,8 @@ export default function NewEmployee() {
             <FormLabel>Position</FormLabel>
             <Input
               type="text"
-              name="position"
-              value={formData.position}
+              name="Position"
+              value={formData.Position}
               onChange={handleInputChange}
               placeholder="Enter position"
             />
@@ -145,8 +165,8 @@ export default function NewEmployee() {
             <FormLabel>Date of Hire</FormLabel>
             <Input
               type="date"
-              name="dateOfHire"
-              value={formData.dateOfHire}
+              name="DateOfHire"
+              value={formData.DateOfHire}
               onChange={handleInputChange}
             />
           </FormControl>
@@ -155,8 +175,8 @@ export default function NewEmployee() {
             <FormLabel>Salary</FormLabel>
             <Input
               type="number"
-              name="salary"
-              value={formData.salary}
+              name="Salary"
+              value={formData.Salary}
               onChange={handleInputChange}
               placeholder="Enter salary"
             />
@@ -165,8 +185,8 @@ export default function NewEmployee() {
           <FormControl isRequired>
             <FormLabel>Status</FormLabel>
             <Select
-              name="status"
-              value={formData.status}
+              name="Status"
+              value={formData.Status}
               onChange={handleInputChange}
               placeholder="Select status"
             >
@@ -176,19 +196,19 @@ export default function NewEmployee() {
           </FormControl>
 
           <FormControl isRequired>
-            <FormLabel>Role ID</FormLabel>
+            <FormLabel>Role</FormLabel>
             <Select
-              name="roleId"
-              value={formData.roleId}
+              name="Role"
+              value={formData.Role}
               onChange={handleInputChange}
               placeholder="Select role"
             >
-              <option value="1">HR Administrator</option>
-              <option value="2">Employee</option>
+              <option value="HR Administrator">HR Administrator</option>
+              <option value="Employee">Employee</option>
             </Select>
           </FormControl>
 
-          <Button type="submit" colorScheme="yellow" isFullWidth>
+          <Button type="submit" colorScheme="yellow">
             Add Employee
           </Button>
         </Stack>

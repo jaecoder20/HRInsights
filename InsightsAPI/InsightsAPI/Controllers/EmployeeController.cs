@@ -40,10 +40,9 @@ namespace InsightsAPI.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<List<Employee>>> GetEmployee([FromQuery] string query)
         {
-            // Try to parse the query as an ID first
-            if (int.TryParse(query, out int id))
-            {
-                var employeeById = await _employeeRepository.GetEmployeeAsync(id);
+            if(!string.IsNullOrEmpty(query))
+{
+                var employeeById = await _employeeRepository.GetEmployeeAsync(query);  
                 if (employeeById != null)
                 {
                     return Ok(new
@@ -53,6 +52,7 @@ namespace InsightsAPI.Controllers
                     });
                 }
             }
+
 
             // Search by name if ID search fails
             var employeeByName = await _employeeRepository.GetEmployeeByNameAsync(query);
@@ -87,11 +87,15 @@ namespace InsightsAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> AddEmployee([FromBody] Employee employee)
         {
-            var addedEmployee = await _employeeRepository.AddEmployeeAsync(employee);
+            if (employee == null)
+            {
+                return BadRequest(new { message = "Invalid employee data." });
+            }
 
+            var addedEmployee = await _employeeRepository.AddEmployeeAsync(employee);
             if (addedEmployee == null)
             {
-                return BadRequest("Invalid employee data.");
+                return BadRequest(new { message = "Error adding employee." });
             }
 
             return CreatedAtAction(nameof(GetEmployee), new { id = addedEmployee.EmployeeId }, new
@@ -100,11 +104,11 @@ namespace InsightsAPI.Controllers
                 employee = addedEmployee
             });
         }
-        [Authorize(Roles = "HR Administator")]
+        [Authorize(Roles = "HR Administrator")]
         [HttpPut("{id}")]
         public async Task<ActionResult<Employee>> UpdateEmployee(int id, [FromBody] Employee employee)
         {
-            if (id != employee.EmployeeId)
+            if (id != employee.Id)
             {
                 return BadRequest(new { message = "Employee ID mismatch." });
             }
@@ -116,11 +120,11 @@ namespace InsightsAPI.Controllers
                 return NotFound(new { message = "Employee not found." });
             }
 
-            return Ok(new { 
-                message = "Employee updated successfully.", 
-                employee = updatedEmployee 
-            }
-            );
+            return Ok(new
+            {
+                message = "Employee updated successfully.",
+                employee = updatedEmployee
+            });
         }
         [Authorize(Roles = "HR Administator")]
         [HttpDelete("{id}")]
