@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
+import axios from "../api/axios";
 import Cookies from "js-cookie";
+import authContext  from "../context/AuthProvider";
 
 import {
   Flex,
@@ -19,9 +20,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function LoginPage() {
-  const axiosInstance = axios.create({
-    baseURL: "http://localhost:5219", // Base URL for the API
-  });
+  const { setAuth } = useContext(authContext);
 
   // State to manage form inputs
   const [email, setEmail] = useState("");
@@ -61,27 +60,30 @@ export default function LoginPage() {
 
     if (valid) {
       try {
-        const response = await fetch("http://localhost:5219/api/Login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "text/plain",
-          },
-          body: JSON.stringify({
+        const response = await axios.post(
+          "/api/login",
+          {
             email: email,
             passwordHash: password,
-          }),
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-          Cookies.set("token", data.token);
-          window.location.href = "/home";
-        } else {
-          console.error(data.message);
-        }
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              withCredentials: true,
+            },
+          }
+        );
+        
+        const data = response.data;
+        const token = data.token;
+        const employee = data.employee;
+        setAuth({ token, employee });
       } catch (error) {
-        console.error("Error logging in:", error);
+        if(!error?.response?.data?.message) {
+          setPasswordError("An error occurred. Please try again.");
+        }else{
+          setPasswordError(error.response.data.message);
+        }
       }
     }
   };
