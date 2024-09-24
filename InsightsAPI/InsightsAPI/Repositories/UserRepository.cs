@@ -32,9 +32,9 @@ namespace InsightsAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<User> LoginUserAsync(string username, string password)
+        public async Task<User> LoginUserAsync(string email, string password)
         {
-            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Username == username && x.PasswordHash == password);
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == email && x.PasswordHash == password);
             return currentUser;
         }
 
