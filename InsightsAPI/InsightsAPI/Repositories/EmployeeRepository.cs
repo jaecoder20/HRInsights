@@ -53,9 +53,47 @@ namespace InsightsAPI.Repositories
         }
         public async Task<Employee> GetEmployeeAsync(string employeeEmail)
         {
-            return await _context.Employees
+            try
+            {
+                return await _context.Employees
+                    .Include(e => e.Role)
+                    .FirstOrDefaultAsync(e => e.Email == employeeEmail);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Employee> GetEmployeeByEmailAsync(string query)
+        {
+            try
+            {
+                return await _context.Employees
                 .Include(e => e.Role)
-                .FirstOrDefaultAsync(e => e.Email == employeeEmail);
+                .FirstOrDefaultAsync(e => e.Email == query);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Employee> GetEmployeeByNameAsync(string query)
+        {
+            try
+            {
+                string fname = query.Split(' ')[0];
+                string lname = query.Split(' ')[1];
+
+                return await _context.Employees
+                    .Include(e => e.Role)
+                    .FirstOrDefaultAsync(e => e.FirstName == query && e.LastName == query);
+            }
+            catch (Exception ex) {
+                return null;
+
+            }
         }
 
         public async Task<List<Employee>> GetEmployeesAsync()
