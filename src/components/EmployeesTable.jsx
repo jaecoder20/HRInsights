@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import {
+  useToast,
   Table,
   Thead,
   Tbody,
@@ -23,7 +24,8 @@ const EmployeesTable = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const currUser = JSON.parse(Cookies.get("employee"));
-  console.log(currUser);
+  const [responseReceived, setResponseReceived] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -49,14 +51,28 @@ const EmployeesTable = () => {
 
   const handleDelete = async (employeeId) => {
     try {
-      await axios.delete(`/api/employee/${employeeId}`, {
+      const response = await axios.delete(`/api/employee/${employeeId}`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
       });
+      setResponseReceived(response.data.message);
       setEmployees(employees.filter((emp) => emp.employeeId !== employeeId));
+      toast({
+        title: "Employee deleted.",
+        description: response.data.message || "Employee deleted successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
-      console.error("Error deleting employee:", error);
+      toast({
+        title: "Error deleting employee.",
+        description: responseReceived || "An error occurred. Please try again.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -137,7 +153,7 @@ const EmployeesTable = () => {
                     aria-label="delete"
                     size="sm"
                     variant="outline"
-                    onClick={() => handleDelete(employee.employeeId)} 
+                    onClick={() => handleDelete(employee.employeeId)}
                   />
                 </HStack>
               </Td>
