@@ -84,7 +84,7 @@ namespace InsightsAPI.Repositories
                 string lname = query.Split(' ')[1];
 
                 return await _context.Employees
-                    .FirstOrDefaultAsync(e => e.FirstName == fname || e.LastName == lname);
+                    .FirstOrDefaultAsync(e => e.FirstName == fname && e.LastName == lname);
             }
             catch (Exception ex) {
                 return null;
