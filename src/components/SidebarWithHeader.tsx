@@ -267,7 +267,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} user={user} />
-      <Box ml={{ base: 0, md: 60 }} p="8">
+      <Box overflow="auto" ml={{ base: 0, md: 60 }} p="8">
         {activePage === "Home" && <DashboardCards />}{" "}
         {/* Use the dynamic cards component */}
         {activePage === "Employees" && <EmployeesTable />}
