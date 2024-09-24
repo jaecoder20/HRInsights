@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../assets/logo.png";
 import svgLogo from "../assets/logo.svg";
+import DashboardCards from "./DashboardCards";
 import {
   IconButton,
   Avatar,
@@ -24,6 +25,7 @@ import {
   MenuItem,
   MenuList,
   Image,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -34,11 +36,16 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
+  FiSmile,
+  FiUsers,
+  FiGrid,
+  FiUserCheck,
 } from "react-icons/fi";
 import { MdOutlinePersonOutline } from "react-icons/md";
 
 import { IconType } from "react-icons";
 import { BiMoneyWithdraw } from "react-icons/bi";
+import StatisticsCard from "./StatisticsCard";
 interface User {
   avatar: string;
   name: string;
@@ -72,6 +79,7 @@ const LinkItems: Array<LinkItemProps> = [
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  
   return (
     <Box
       transition="3s ease"
@@ -224,7 +232,11 @@ interface SidebarWithHeaderProps {
 
 const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [activePage, setActivePage] = useState("Home");
 
+  const handlePageChange = (page) => {
+    setActivePage(page);
+  };
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
@@ -244,8 +256,10 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} user={user} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {/* Content */}
+      <Box ml={{ base: 0, md: 60 }} p="8">
+      {activePage === "Home" && <DashboardCards />} {/* Use the dynamic cards component */}
+        {/* {activePage === "Employees" && <EmployeesTable />} Placeholder for the dynamic table */}
+        {/* Add other components here */}
       </Box>
     </Box>
   );
