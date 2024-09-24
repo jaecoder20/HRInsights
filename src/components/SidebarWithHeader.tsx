@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Logo from "../assets/logo.png";
 import svgLogo from "../assets/logo.svg";
 import DashboardCards from "./DashboardCards";
+import { IoMdAdd } from "react-icons/io";
+
 import {
   IconButton,
   Avatar,
@@ -49,6 +51,7 @@ import { BiMoneyWithdraw } from "react-icons/bi";
 import StatisticsCard from "./StatisticsCard";
 import EmployeesTable from "./EmployeesTable";
 import EmployeeCard from "./EmployeeCard";
+import NewEmployee from "./NewEmployee";
 interface User {
   avatar: string;
   name: string;
@@ -78,7 +81,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome },
   { name: "Employees", icon: MdOutlinePersonOutline },
   { name: "Find Employee", icon: FiSearch },
-  { name: "Payroll", icon: BiMoneyWithdraw },
+  { name: "Add Employee", icon: IoMdAdd },
   { name: "Settings", icon: FiSettings },
 ];
 
@@ -274,6 +277,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         {/* Use the dynamic cards component */}
         {activePage === "Employees" && <EmployeesTable />}
         {activePage === "Find Employee" && <EmployeeCard />}
+        {activePage === "Add Employee" && <NewEmployee />}
         {/* Add other components here */}
       </Box>
     </Box>

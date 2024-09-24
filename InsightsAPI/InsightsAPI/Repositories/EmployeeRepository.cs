@@ -14,20 +14,27 @@ namespace InsightsAPI.Repositories
         }
         public async Task<Employee> AddEmployeeAsync(Employee employee)
         {
-            if (employee == null || string.IsNullOrWhiteSpace(employee.FirstName) ||
-            string.IsNullOrWhiteSpace(employee.LastName) ||
-            string.IsNullOrWhiteSpace(employee.Email) ||
-            string.IsNullOrWhiteSpace(employee.PhoneNumber) ||
-            string.IsNullOrWhiteSpace(employee.Position) ||
-            employee.DateOfHire == DateTime.MinValue ||
-            employee.Salary <= 0)
+            try
             {
-                return null; 
-            }
+                if (employee == null || string.IsNullOrWhiteSpace(employee.FirstName) ||
+                string.IsNullOrWhiteSpace(employee.LastName) ||
+                string.IsNullOrWhiteSpace(employee.Email) ||
+                string.IsNullOrWhiteSpace(employee.PhoneNumber) ||
+                string.IsNullOrWhiteSpace(employee.Position) ||
+                employee.DateOfHire == DateTime.MinValue ||
+                employee.Salary <= 0)
+                {
+                    return null;
+                }
 
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
-            return employee;
+                _context.Employees.Add(employee);
+                await _context.SaveChangesAsync();
+                return employee;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async Task<bool> DeleteEmployeeAsync(int employeeId)
@@ -45,24 +52,15 @@ namespace InsightsAPI.Repositories
             return true; 
         }
 
-        public async Task<Employee> GetEmployeeAsync(int employeeId)
+        public async Task<Employee> GetEmployeeAsync(string employeeId)
         {
             return await _context.Employees
-            .Include(e => e.Role)  
             .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
         }
-        public async Task<Employee> GetEmployeeAsync(string employeeEmail)
+
+        public async Task<Employee> GetEmployeeAsync(int employeeId)
         {
-            try
-            {
-                return await _context.Employees
-                    .Include(e => e.Role)
-                    .FirstOrDefaultAsync(e => e.Email == employeeEmail);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            return await _context.Employees.FindAsync(employeeId);
         }
 
         public async Task<Employee> GetEmployeeByEmailAsync(string query)
@@ -70,7 +68,6 @@ namespace InsightsAPI.Repositories
             try
             {
                 return await _context.Employees
-                .Include(e => e.Role)
                 .FirstOrDefaultAsync(e => e.Email == query);
             }
             catch (Exception ex)
@@ -87,8 +84,7 @@ namespace InsightsAPI.Repositories
                 string lname = query.Split(' ')[1];
 
                 return await _context.Employees
-                    .Include(e => e.Role)
-                    .FirstOrDefaultAsync(e => e.FirstName == query && e.LastName == query);
+                    .FirstOrDefaultAsync(e => e.FirstName == fname || e.LastName == lname);
             }
             catch (Exception ex) {
                 return null;

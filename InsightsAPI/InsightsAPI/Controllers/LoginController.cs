@@ -33,7 +33,7 @@ namespace InsightsAPI.Controllers
             {
                 return NotFound(new { message = "User not found." });
             }
-            var employeeAccount = await _employeeRepository.GetEmployeeAsync(currentUser.Email);
+            var employeeAccount = await _employeeRepository.GetEmployeeByEmailAsync(currentUser.Email);
             if (employeeAccount == null)
             {
                 return NotFound(new { 

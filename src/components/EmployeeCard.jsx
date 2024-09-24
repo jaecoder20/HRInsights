@@ -18,6 +18,7 @@ export default function EmployeeCard() {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [messageReceived, setMessageReceived] = useState("");
   const toast = useToast();
 
   // Function to handle search
@@ -32,6 +33,7 @@ export default function EmployeeCard() {
           },
         }
       );
+      setMessageReceived(response.data.message);
       console.log(response.data);
 
       // Assuming the response contains employee data
@@ -46,10 +48,11 @@ export default function EmployeeCard() {
         duration: 3000,
         isClosable: true,
       });
+      setMessageReceived("");
     } catch (error) {
       console.log(error);
       toast({
-        title: response.data.message || "An error occurred.",
+        title: messageReceived || "An error occurred.",
         description: "Please try again.",
         status: "error",
         duration: 3000,
