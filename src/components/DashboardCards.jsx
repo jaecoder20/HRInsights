@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { SimpleGrid, Box, Spinner, Alert, AlertIcon } from "@chakra-ui/react";
 import axios from "../api/axios";
 import StatisticsCard from "./StatisticsCard";
 import { FiUsers, FiUserCheck, FiSmile, FiGrid } from "react-icons/fi";
+import authContext from "../context/AuthProvider";
 
 const DashboardCards = () => {
+  const { auth } = useContext(authContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,8 +14,13 @@ const DashboardCards = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/report"); 
-        setData(response.data);
+        const response = await axios.get("/api/report", {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        });
+        setData(response.data.report);
+        console.log(response.data);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -39,10 +46,26 @@ const DashboardCards = () => {
   return (
     <Box p="8">
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing="10">
-        <StatisticsCard label={"Total Employees"} icon={FiUsers} quantity={data.totalEmployees} />
-        <StatisticsCard label={"Active Employees"} icon={FiUserCheck} quantity={data.activeEmployees} />
-        <StatisticsCard label={"On Leave"} icon={FiSmile} quantity={data.onLeave} />
-        <StatisticsCard label={"Onboarding"} icon={FiGrid} quantity={data.onboarding} />
+        <StatisticsCard
+          label={"Total Employees"}
+          icon={FiUsers}
+          quantity={data.totalEmployees}
+        />
+        <StatisticsCard
+          label={"Active Employees"}
+          icon={FiUserCheck}
+          quantity={data.totalActive}
+        />
+        <StatisticsCard
+          label={"On Leave"}
+          icon={FiSmile}
+          quantity={data.totalOnLeave}
+        />
+        <StatisticsCard
+          label={"Hired 30 Days Ago"}
+          icon={FiGrid}
+          quantity={data.thirtyDayHires}
+        />
       </SimpleGrid>
     </Box>
   );

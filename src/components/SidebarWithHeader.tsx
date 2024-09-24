@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../assets/logo.png";
 import svgLogo from "../assets/logo.svg";
+import DashboardCards from "./DashboardCards";
 import {
   IconButton,
   Avatar,
@@ -78,6 +79,7 @@ const LinkItems: Array<LinkItemProps> = [
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  
   return (
     <Box
       transition="3s ease"
@@ -230,7 +232,11 @@ interface SidebarWithHeaderProps {
 
 const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [activePage, setActivePage] = useState("Home");
 
+  const handlePageChange = (page) => {
+    setActivePage(page);
+  };
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
@@ -251,20 +257,9 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
       </Drawer>
       <MobileNav onOpen={onOpen} user={user} />
       <Box ml={{ base: 0, md: 60 }} p="8">
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing="10">
-          <StatisticsCard
-            label={"Total Employees"}
-            icon={FiUsers}
-            quantity={192}
-          />
-          <StatisticsCard
-            label={"Active Employees"}
-            icon={FiUserCheck}
-            quantity={181}
-          />
-          <StatisticsCard label={"On Leave"} icon={FiSmile} quantity={17} />
-          <StatisticsCard label={"Onboarding"} icon={FiGrid} quantity={27} />
-        </SimpleGrid>
+      {activePage === "Home" && <DashboardCards />} {/* Use the dynamic cards component */}
+        {/* {activePage === "Employees" && <EmployeesTable />} Placeholder for the dynamic table */}
+        {/* Add other components here */}
       </Box>
     </Box>
   );
