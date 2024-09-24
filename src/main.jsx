@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound.jsx";
 import SidebarWithHeader from "./components/SidebarWithHeader.tsx";
 import Home from "./pages/Home.jsx";
 import { AuthProvider } from "./context/AuthProvider.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home />,
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
   },
 ]);
 createRoot(document.getElementById("root")).render(
