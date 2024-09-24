@@ -58,7 +58,7 @@ const EmployeesTable = () => {
   }
 
   return (
-    <Table variant="simple">
+    <Table backgroundColor={"white"} variant="striped" colorScheme="orange">
       <Thead>
         <Tr>
           <Th>Name</Th>
