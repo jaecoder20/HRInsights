@@ -46,6 +46,7 @@ import { MdOutlinePersonOutline } from "react-icons/md";
 import { IconType } from "react-icons";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import StatisticsCard from "./StatisticsCard";
+import EmployeesTable from "./EmployeesTable";
 interface User {
   avatar: string;
   name: string;
@@ -67,6 +68,7 @@ interface MobileProps extends FlexProps {
 }
 
 interface SidebarProps extends BoxProps {
+  onPageChange: (page: string) => void;
   onClose: () => void;
 }
 
@@ -78,8 +80,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Settings", icon: FiSettings },
 ];
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-  
+const SidebarContent = ({ onClose, onPageChange, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
@@ -97,7 +98,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem marginTop="10px" key={link.name} icon={link.icon}>
+        <NavItem
+          marginTop="10px"
+          key={link.name}
+          icon={link.icon}
+          onClick={() => onPageChange(link.name)}
+        >
           {link.name}
         </NavItem>
       ))}
@@ -242,6 +248,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
+        onPageChange={handlePageChange}
       />
       <Drawer
         isOpen={isOpen}
@@ -252,13 +259,16 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose} onPageChange={function (page: string): void {
+            throw new Error("Function not implemented.");
+          } } />
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} user={user} />
       <Box ml={{ base: 0, md: 60 }} p="8">
-      {activePage === "Home" && <DashboardCards />} {/* Use the dynamic cards component */}
-        {/* {activePage === "Employees" && <EmployeesTable />} Placeholder for the dynamic table */}
+        {activePage === "Home" && <DashboardCards />}{" "}
+        {/* Use the dynamic cards component */}
+        {activePage === "Employees" && <EmployeesTable />}
         {/* Add other components here */}
       </Box>
     </Box>

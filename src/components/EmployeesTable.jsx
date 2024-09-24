@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import {
   Table,
   Thead,
@@ -14,8 +15,8 @@ import {
   IconButton,
   HStack,
 } from "@chakra-ui/react";
-import { FiEdit } from "react-icons/fi";
-import axios from "axios";
+import { FiDelete, FiEdit } from "react-icons/fi";
+import axios from "../api/axios";
 
 const EmployeesTable = () => {
   const [employees, setEmployees] = useState([]);
@@ -25,8 +26,15 @@ const EmployeesTable = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get("/api/employees"); // Adjust the URL based on your API
-        setEmployees(response.data);
+        const response = await axios.get("/api/employee", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        });
+        setEmployees(response.data.employees);
+        console.log(response.data);
+        console.log(response.data.employees);
+        console.log(employees);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -53,12 +61,9 @@ const EmployeesTable = () => {
     <Table variant="simple">
       <Thead>
         <Tr>
-          <Th>
-            <input type="checkbox" />
-          </Th>
           <Th>Name</Th>
-          <Th>Job Title</Th>
-          <Th>Department</Th>
+          <Th>Email</Th>
+          <Th>Position</Th>
           <Th>Status</Th>
           <Th>Action</Th>
         </Tr>
@@ -67,33 +72,56 @@ const EmployeesTable = () => {
         {employees.map((employee) => (
           <Tr key={employee.id}>
             <Td>
-              <input type="checkbox" />
-            </Td>
-            <Td>
               <HStack spacing="4">
-                <Avatar size="sm" src={employee.avatarUrl} /> {/* Employee Avatar */}
-                <span>{employee.name}</span>
+                <Avatar size="sm" src={employee.avatarUrl} />{" "}
+                {/* Employee Avatar */}
+                <span>{employee.firstName + " " + employee.lastName}</span>
               </HStack>
             </Td>
-            <Td>{employee.jobTitle}</Td>
-            <Td>{employee.department}</Td>
+            <Td>{employee.email}</Td>
+            <Td>{employee.position}</Td>
             <Td>
               <HStack spacing="2">
-                <span>{employee.status}</span>
-                {employee.status === "Active" ? (
-                  <span style={{ color: "green" }}>●</span>
-                ) : (
-                  <span style={{ color: "orange" }}>●</span>
+                {employee.status === 0 && (
+                  <>
+                    <span style={{ color: "#ffc808" }}>Onboarding</span>
+                    <span style={{ color: "#ffc808" }}>●</span>
+                  </>
+                )}
+                {employee.status === 1 && (
+                  <>
+                    <span style={{ color: "green" }}>Active</span>
+                    <span style={{ color: "green" }}>●</span>
+                  </>
+                )}
+                {employee.status === 2 && (
+                  <>
+                    <span style={{ color: "red" }}>On Leave</span>
+                    <span style={{ color: "red" }}>●</span>
+                  </>
                 )}
               </HStack>
             </Td>
+
             <Td>
-              <IconButton
-                icon={<FiEdit />}
-                aria-label="Edit"
-                size="sm"
-                variant="outline"
-              />
+              <HStack spacing="2">
+                {" "}
+                {/* Add HStack to align them side by side with spacing */}
+                <IconButton
+                  color={"orange"}
+                  icon={<FiEdit />}
+                  aria-label="Edit"
+                  size="sm"
+                  variant="outline"
+                />
+                <IconButton
+                  color={"red"}
+                  icon={<FiDelete />}
+                  aria-label="delete"
+                  size="sm"
+                  variant="outline"
+                />
+              </HStack>
             </Td>
           </Tr>
         ))}
