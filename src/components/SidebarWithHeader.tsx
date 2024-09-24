@@ -24,6 +24,7 @@ import {
   MenuItem,
   MenuList,
   Image,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -34,11 +35,16 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
+  FiSmile,
+  FiUsers,
+  FiGrid,
+  FiUserCheck,
 } from "react-icons/fi";
 import { MdOutlinePersonOutline } from "react-icons/md";
 
 import { IconType } from "react-icons";
 import { BiMoneyWithdraw } from "react-icons/bi";
+import StatisticsCard from "./StatisticsCard";
 interface User {
   avatar: string;
   name: string;
@@ -244,8 +250,21 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} user={user} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {/* Content */}
+      <Box ml={{ base: 0, md: 60 }} p="8">
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing="10">
+          <StatisticsCard
+            label={"Total Employees"}
+            icon={FiUsers}
+            quantity={192}
+          />
+          <StatisticsCard
+            label={"Active Employees"}
+            icon={FiUserCheck}
+            quantity={181}
+          />
+          <StatisticsCard label={"On Leave"} icon={FiSmile} quantity={17} />
+          <StatisticsCard label={"Onboarding"} icon={FiGrid} quantity={27} />
+        </SimpleGrid>
       </Box>
     </Box>
   );

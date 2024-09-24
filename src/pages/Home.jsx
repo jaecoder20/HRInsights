@@ -13,8 +13,7 @@ export default function Home() {
 
   return (
     <div>
-      {/* <SidebarWithHeader user={user} /> */}
-      <StatisticsCard />
+      <SidebarWithHeader user={user} />
     </div>
   );
 }
