@@ -37,6 +37,7 @@ const EmployeesTable = () => {
         console.log(employees);
         setLoading(false);
       } catch (err) {
+        console.log(err);
         setError(err.message);
         setLoading(false);
       }
@@ -70,7 +71,7 @@ const EmployeesTable = () => {
       </Thead>
       <Tbody>
         {employees.map((employee) => (
-          <Tr key={employee.id}>
+          <Tr key={employee.email}>
             <Td>
               <HStack spacing="4">
                 <Avatar size="sm" src={employee.avatarUrl} />{" "}

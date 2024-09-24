@@ -23,7 +23,7 @@ namespace InsightsAPI.Services
                 new Claim(ClaimTypes.Surname,employee.LastName),
                 new Claim(ClaimTypes.Email,employee.Email),
                 new Claim(ClaimTypes.MobilePhone,employee.PhoneNumber),
-                new Claim(ClaimTypes.Role,employee.Role.RoleName)
+                new Claim(ClaimTypes.Role,employee.Role)
 
             };
             var token = new JwtSecurityToken(
