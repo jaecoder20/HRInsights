@@ -83,7 +83,7 @@ namespace InsightsAPI.Controllers
             });
 
         }
-        [Authorize(Roles = "HR Administator")]
+        [Authorize(Roles = "HR Administrator")]
         [HttpPost]
         public async Task<ActionResult<Employee>> AddEmployee([FromBody] Employee employee)
         {
