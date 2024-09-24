@@ -40,12 +40,15 @@ import {
   FiUsers,
   FiGrid,
   FiUserCheck,
+  FiSearch,
 } from "react-icons/fi";
 import { MdOutlinePersonOutline } from "react-icons/md";
 
 import { IconType } from "react-icons";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import StatisticsCard from "./StatisticsCard";
+import EmployeesTable from "./EmployeesTable";
+import EmployeeCard from "./EmployeeCard";
 interface User {
   avatar: string;
   name: string;
@@ -67,19 +70,23 @@ interface MobileProps extends FlexProps {
 }
 
 interface SidebarProps extends BoxProps {
+  onPageChange: (page: string) => void;
   onClose: () => void;
 }
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome },
   { name: "Employees", icon: MdOutlinePersonOutline },
-  { name: "Attendance", icon: FiClock },
+  { name: "Find Employee", icon: FiSearch },
   { name: "Payroll", icon: BiMoneyWithdraw },
   { name: "Settings", icon: FiSettings },
 ];
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-  
+const SidebarContent = ({ onClose, onPageChange, ...rest }: SidebarProps) => {
+  const handleLinkClick = (page: string) => {
+    onPageChange(page);
+    onClose(); // Close the sidebar
+  };
   return (
     <Box
       transition="3s ease"
@@ -97,7 +104,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem marginTop="10px" key={link.name} icon={link.icon}>
+        <NavItem
+          marginTop="10px"
+          key={link.name}
+          icon={link.icon}
+          onClick={() => handleLinkClick(link.name)}
+        >
           {link.name}
         </NavItem>
       ))}
@@ -242,6 +254,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
+        onPageChange={handlePageChange}
       />
       <Drawer
         isOpen={isOpen}
@@ -252,13 +265,15 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose} onPageChange={handlePageChange} />
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} user={user} />
-      <Box ml={{ base: 0, md: 60 }} p="8">
-      {activePage === "Home" && <DashboardCards />} {/* Use the dynamic cards component */}
-        {/* {activePage === "Employees" && <EmployeesTable />} Placeholder for the dynamic table */}
+      <Box overflow="auto" ml={{ base: 0, md: 60 }} p="8">
+        {activePage === "Home" && <DashboardCards />}{" "}
+        {/* Use the dynamic cards component */}
+        {activePage === "Employees" && <EmployeesTable />}
+        {activePage === "Find Employee" && <EmployeeCard />}
         {/* Add other components here */}
       </Box>
     </Box>

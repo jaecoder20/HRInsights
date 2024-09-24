@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace InsightsAPI.Controllers
 {
@@ -18,7 +19,7 @@ namespace InsightsAPI.Controllers
         }
 
         [Authorize(Roles = "HR Administrator, Employee")]
-        [HttpGet]
+        [HttpGet("employees")]
         public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
             var employees = await _employeeRepository.GetEmployeesAsync();
@@ -35,21 +36,50 @@ namespace InsightsAPI.Controllers
             });
 
         }
-        [Authorize(Roles = "HR Administator, Employee")]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<List<Employee>>> GetEmployee(int id)
+        [Authorize(Roles = "HR Administrator, Employee")]
+        [HttpGet("")]
+        public async Task<ActionResult<List<Employee>>> GetEmployee([FromQuery] string query)
         {
-            var employee = await _employeeRepository.GetEmployeeAsync(id);
-
-            if (employee == null)
+            // Try to parse the query as an ID first
+            if (int.TryParse(query, out int id))
             {
-                return NotFound(new { message = "Employee not found." });
+                var employeeById = await _employeeRepository.GetEmployeeAsync(id);
+                if (employeeById != null)
+                {
+                    return Ok(new
+                    {
+                        message = "Employee retrieved successfully by ID.",
+                        employee = employeeById
+                    });
+                }
             }
 
-            return Ok(new
+            // Search by name if ID search fails
+            var employeeByName = await _employeeRepository.GetEmployeeByNameAsync(query);
+            if (employeeByName != null)
             {
-                message = "Employee retrieved successfully.",
-                employee = employee
+                return Ok(new
+                {
+                    message = "Employee retrieved successfully by name.",
+                    employee = employeeByName
+                });
+            }
+
+            // Search by email if name search fails
+            var employeeByEmail = await _employeeRepository.GetEmployeeByEmailAsync(query);
+            if (employeeByEmail != null)
+            {
+                return Ok(new
+                {
+                    message = "Employee retrieved successfully by email.",
+                    employee = employeeByEmail
+                });
+            }
+
+            // If no match found, return NotFound
+            return NotFound(new
+            {
+                message = "Employee not found."
             });
 
         }
