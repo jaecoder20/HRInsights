@@ -81,6 +81,10 @@ const LinkItems: Array<LinkItemProps> = [
 ];
 
 const SidebarContent = ({ onClose, onPageChange, ...rest }: SidebarProps) => {
+  const handleLinkClick = (page: string) => {
+    onPageChange(page);
+    onClose(); // Close the sidebar
+  };
   return (
     <Box
       transition="3s ease"
@@ -102,7 +106,7 @@ const SidebarContent = ({ onClose, onPageChange, ...rest }: SidebarProps) => {
           marginTop="10px"
           key={link.name}
           icon={link.icon}
-          onClick={() => onPageChange(link.name)}
+          onClick={() => handleLinkClick(link.name)}
         >
           {link.name}
         </NavItem>
@@ -259,9 +263,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} onPageChange={function (page: string): void {
-            throw new Error("Function not implemented.");
-          } } />
+          <SidebarContent onClose={onClose} onPageChange={handlePageChange} />
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} user={user} />
