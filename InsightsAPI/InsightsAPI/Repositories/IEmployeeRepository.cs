@@ -9,7 +9,7 @@ namespace InsightsAPI.Repositories
         Task<Employee> GetEmployeeAsync(string employeeEmail);
         Task<Employee> AddEmployeeAsync(Employee employee);
         Task<Employee> UpdateEmployeeAsync(Employee employee);
-        Task<bool> DeleteEmployeeAsync(int employeeId);
+        Task<bool> DeleteEmployeeAsync(string employeeId);
         Task<Employee> GetEmployeeByNameAsync(string query);
         Task<Employee> GetEmployeeByEmailAsync(string query);
     }

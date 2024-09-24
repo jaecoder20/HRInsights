@@ -47,6 +47,19 @@ const EmployeesTable = () => {
     fetchEmployees();
   }, []);
 
+  const handleDelete = async (employeeId) => {
+    try {
+      await axios.delete(`/api/employee/${employeeId}`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      });
+      setEmployees(employees.filter((emp) => emp.employeeId !== employeeId));
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
+  };
+
   if (loading) {
     return <Spinner size="xl" />;
   }
@@ -124,6 +137,7 @@ const EmployeesTable = () => {
                     aria-label="delete"
                     size="sm"
                     variant="outline"
+                    onClick={() => handleDelete(employee.employeeId)} 
                   />
                 </HStack>
               </Td>

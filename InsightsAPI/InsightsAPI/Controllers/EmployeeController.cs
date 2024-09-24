@@ -126,18 +126,18 @@ namespace InsightsAPI.Controllers
                 employee = updatedEmployee
             });
         }
-        [Authorize(Roles = "HR Administator")]
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteEmployee(int id)
+        [Authorize(Roles = "HR Administrator")]
+        [HttpDelete("{employeeId}")]
+        public async Task<ActionResult> DeleteEmployee(string employeeId)
         {
-            var employee = await _employeeRepository.GetEmployeeAsync(id);
+            var employee = await _employeeRepository.GetEmployeeAsync(employeeId);
 
             if (employee == null)
             {
                 return NotFound(new { message = "Employee not found." });
             }
 
-            bool deleteResult = await _employeeRepository.DeleteEmployeeAsync(id);
+            bool deleteResult = await _employeeRepository.DeleteEmployeeAsync(employeeId);
 
             if (!deleteResult)
             {

@@ -37,9 +37,9 @@ namespace InsightsAPI.Repositories
             }
         }
 
-        public async Task<bool> DeleteEmployeeAsync(int employeeId)
+        public async Task<bool> DeleteEmployeeAsync(string employeeId)
         {
-            var employee = await _context.Employees.FindAsync(employeeId);
+            var employee = await GetEmployeeAsync(employeeId);
 
             if (employee == null)
             {
