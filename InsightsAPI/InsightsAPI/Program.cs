@@ -56,6 +56,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IReportRepository, ReportRepository>();
 
 var app = builder.Build();
 
