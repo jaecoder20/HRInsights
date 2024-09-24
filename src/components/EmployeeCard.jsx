@@ -24,11 +24,14 @@ export default function EmployeeCard() {
   const handleSearch = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`api/employee?query=${searchTerm}`, {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-      });
+      const response = await axios.get(
+        `api/employee/search?query=${searchTerm}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
       console.log(response.data);
 
       // Assuming the response contains employee data

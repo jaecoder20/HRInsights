@@ -19,7 +19,7 @@ namespace InsightsAPI.Controllers
         }
 
         [Authorize(Roles = "HR Administrator, Employee")]
-        [HttpGet("employees")]
+        [HttpGet("")]
         public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
             var employees = await _employeeRepository.GetEmployeesAsync();
@@ -37,7 +37,7 @@ namespace InsightsAPI.Controllers
 
         }
         [Authorize(Roles = "HR Administrator, Employee")]
-        [HttpGet("")]
+        [HttpGet("search")]
         public async Task<ActionResult<List<Employee>>> GetEmployee([FromQuery] string query)
         {
             // Try to parse the query as an ID first
