@@ -9,9 +9,6 @@ import SidebarWithHeader from "./components/SidebarWithHeader";
 
 function App() {
   return (
-    // <LandingPage />
-    // <LoginPage />
-    // <SidebarWithHeader />
     <Home />
   );
 }

@@ -4,7 +4,8 @@ import Logo from "../assets/logo.png";
 import svgLogo from "../assets/logo.svg";
 import DashboardCards from "./DashboardCards";
 import { IoMdAdd } from "react-icons/io";
-
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import {
   IconButton,
   Avatar,
@@ -160,9 +161,15 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
 interface MobileNavProps extends FlexProps {
   onOpen: () => void;
   user: User;
+  handleSignOut: () => void;
 }
 
-const MobileNav: React.FC<MobileNavProps> = ({ onOpen, user, ...rest }) => {
+const MobileNav: React.FC<MobileNavProps> = ({
+  onOpen,
+  user,
+  handleSignOut,
+  ...rest
+}) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -232,7 +239,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ onOpen, user, ...rest }) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
@@ -248,9 +255,15 @@ interface SidebarWithHeaderProps {
 const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activePage, setActivePage] = useState("Home");
+  const navigate = useNavigate();
 
   const handlePageChange = (page) => {
     setActivePage(page);
+  };
+  const handleSignOut = () => {
+    Cookies.remove("token");
+    Cookies.remove("employee");
+    navigate("/");
   };
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
@@ -271,7 +284,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
           <SidebarContent onClose={onClose} onPageChange={handlePageChange} />
         </DrawerContent>
       </Drawer>
-      <MobileNav onOpen={onOpen} user={user} />
+      <MobileNav onOpen={onOpen} handleSignOut={handleSignOut} user={user} />
       <Box overflow="auto" ml={{ base: 0, md: 60 }} p="8">
         {activePage === "Home" && <DashboardCards />}{" "}
         {/* Use the dynamic cards component */}
