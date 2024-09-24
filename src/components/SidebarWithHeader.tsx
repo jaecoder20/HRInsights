@@ -40,6 +40,7 @@ import {
   FiUsers,
   FiGrid,
   FiUserCheck,
+  FiSearch,
 } from "react-icons/fi";
 import { MdOutlinePersonOutline } from "react-icons/md";
 
@@ -47,6 +48,7 @@ import { IconType } from "react-icons";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import StatisticsCard from "./StatisticsCard";
 import EmployeesTable from "./EmployeesTable";
+import EmployeeCard from "./EmployeeCard";
 interface User {
   avatar: string;
   name: string;
@@ -75,7 +77,7 @@ interface SidebarProps extends BoxProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome },
   { name: "Employees", icon: MdOutlinePersonOutline },
-  { name: "Attendance", icon: FiClock },
+  { name: "Find Employee", icon: FiSearch },
   { name: "Payroll", icon: BiMoneyWithdraw },
   { name: "Settings", icon: FiSettings },
 ];
@@ -271,6 +273,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         {activePage === "Home" && <DashboardCards />}{" "}
         {/* Use the dynamic cards component */}
         {activePage === "Employees" && <EmployeesTable />}
+        {activePage === "Find Employee" && <EmployeeCard />}
         {/* Add other components here */}
       </Box>
     </Box>
