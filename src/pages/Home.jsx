@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import SidebarWithHeader from "../components/SidebarWithHeader";
 import authContext from "../context/AuthProvider";
+import StatisticsCard from "../components/StatisticsCard";
 
 export default function Home() {
   const { auth } = useContext(authContext);
@@ -12,7 +13,8 @@ export default function Home() {
 
   return (
     <div>
-      <SidebarWithHeader user={user} />
+      {/* <SidebarWithHeader user={user} /> */}
+      <StatisticsCard />
     </div>
   );
 }
