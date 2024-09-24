@@ -25,9 +25,9 @@ namespace InsightsAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<User>> Login([FromBody] User user)
+        public async Task<ActionResult<User>> Login([FromBody] LoginRequest login)
         {
-            var currentUser = await _userRepository.LoginUserAsync(user.Username, user.PasswordHash);
+            var currentUser = await _userRepository.LoginUserAsync(login.Email, login.PasswordHash);
 
             if (currentUser == null)
             {
