@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import SidebarWithHeader from "../components/SidebarWithHeader";
-
-const testUser = {
-  avatar: "https://bit.ly/dan-abramov",
-  name: "Rojae Smith",
-  accountType: "Member",
-};
+import authContext from "../context/AuthProvider";
 
 export default function Home() {
+  const { auth } = useContext(authContext);
+  const user = {
+    avatar: "https://bit.ly/broken-link",
+    name: auth.employee.firstName + " " + auth.employee.lastName,
+    accountType: auth.employee.role.roleName,
+  };
+
   return (
     <div>
-      <SidebarWithHeader user={testUser} />
+      <SidebarWithHeader user={user} />
     </div>
   );
 }
