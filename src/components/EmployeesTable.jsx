@@ -138,21 +138,12 @@ const EmployeesTable = () => {
             {currUser.role === "HR Administrator" && (
               <Td>
                 <HStack spacing="2">
-                  {" "}
-                  {/* Add HStack to align them side by side with spacing */}
-                  <IconButton
-                    color={"orange"}
-                    icon={<FiEdit />}
-                    aria-label="Edit"
-                    size="sm"
-                    variant="outline"
-                  />
                   <IconButton
                     color={"red"}
                     icon={<FiDelete />}
                     aria-label="delete"
                     size="sm"
-                    variant="outline"
+                    variant={"none"}
                     onClick={() => handleDelete(employee.employeeId)}
                   />
                 </HStack>

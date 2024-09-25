@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { IconButton } from "@chakra-ui/react";
+import { FiEdit } from "react-icons/fi";
 import {
   Box,
   Text,
@@ -21,6 +23,14 @@ export default function EmployeeCard() {
   const [messageReceived, setMessageReceived] = useState("");
   const toast = useToast();
 
+  const [employeeId, setEmployeeId] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [position, setPosition] = useState("");
+  const [dateOfHire, setDateOfHire] = useState("");
+  const [status, setStatus] = useState("");
+  const [role, setRole] = useState("");
+
   // Function to handle search
   const handleSearch = async () => {
     setIsLoading(true);
@@ -38,9 +48,22 @@ export default function EmployeeCard() {
 
       // Assuming the response contains employee data
       const employee = response.data.employee;
+      setEmployeeId(employee.employeeId);
       setName(employee.firstName + " " + employee.lastName);
       setSalary(employee.salary);
       setAvatarUrl(employee.avatarUrl);
+      setEmail(employee.email);
+      setPhoneNumber(employee.phoneNumber);
+      setPosition(employee.position);
+      setDateOfHire(new Date(employee.dateOfHire).toLocaleDateString());
+      setStatus(
+        employee.status === 0
+          ? "Onboarding"
+          : employee.status === 1
+          ? "Active"
+          : "On Leave"
+      );
+      setRole(employee.role);
 
       toast({
         title: "Employee found.",
@@ -71,7 +94,7 @@ export default function EmployeeCard() {
           placeholder="Search for an employee..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          width={{ base: "90%", md: "300px" }}
+          width={{ base: "90%", md: "400px" }}
           bg="white"
           border="2px solid"
           borderColor="gray.300"
@@ -100,7 +123,7 @@ export default function EmployeeCard() {
           borderRadius="lg"
           overflow="hidden"
           width={{ base: "100%", md: "auto" }} // Full width on smaller screens
-          maxW={{ base: "100%", md: "600px" }} // Limit max width on larger screens
+          maxW={{ base: "100%", md: "800px" }} // Limit max width on larger screens
           bg="white"
           boxShadow="sm"
           textAlign="center"
@@ -121,11 +144,65 @@ export default function EmployeeCard() {
               <Text fontSize="lg" color="gray.500">
                 {name}
               </Text>
-              <Text fontSize="3xl" fontWeight="bold">
+              <Text marginBottom="5%" fontSize="3xl" fontWeight="bold">
                 ${salary}
+              </Text>
+
+              {/* Display additional employee details below */}
+              <Text fontSize="md" color="gray.600">
+                <Text as="span" fontWeight="bold">
+                  ID:
+                </Text>{" "}
+                {employeeId}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                <Text as="span" fontWeight="bold">
+                  Email:
+                </Text>{" "}
+                {email}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                <Text as="span" fontWeight="bold">
+                  Phone:
+                </Text>{" "}
+                {phoneNumber}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                <Text as="span" fontWeight="bold">
+                  Position:
+                </Text>{" "}
+                {position}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                <Text as="span" fontWeight="bold">
+                  Date of Hire:
+                </Text>{" "}
+                {dateOfHire}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                <Text as="span" fontWeight="bold">
+                  Status:
+                </Text>{" "}
+                {status}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                <Text as="span" fontWeight="bold">
+                  Role:
+                </Text>{" "}
+                {role}
               </Text>
             </Box>
           </Stack>
+          <IconButton
+            color={"orange"}
+            icon={<FiEdit />}
+            aria-label="Edit"
+            size="sm"
+            variant="outline"
+            position={"relative"}
+            left={"50%"}
+            top={"20px"}
+          />
         </Box>
       ) : null}
     </Box>
