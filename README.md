@@ -42,6 +42,10 @@ dotnet restore
 - dotnet run
 The server should now be running on https://localhost:5219/ (or the URL specified in launchSettings.json).
 
+### Getting Pass CORS Error
+![alt text](image-4.png)
+- Ensure to enter your frontend URL
+
 ### Setting Up the SQL Server Database
 
 1. Create Database: First, create a new SQL Server database named HRInsightsDatabase. This should have been done if the migrations were ran successfully
@@ -84,3 +88,4 @@ Security: Ensure that password hashes are stored securely in production, and rep
 ![alt text](image-1.png)
 ![alt text](image-2.png)
 ![alt text](image-3.png)
+
