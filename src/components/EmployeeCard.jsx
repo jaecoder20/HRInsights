@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import axios from "../api/axios"; //
 import Cookies from "js-cookie"; //
-import { useDisclosure } from "@chakra-ui/react"; 
-import UpdateEmployeeModal from "./UpdateEmployeeModal"; 
+import { useDisclosure } from "@chakra-ui/react";
+import UpdateEmployeeModal from "./UpdateEmployeeModal";
 export default function EmployeeCard() {
   const [name, setName] = useState("");
   const [salary, setSalary] = useState("");
@@ -32,8 +32,8 @@ export default function EmployeeCard() {
   const [status, setStatus] = useState("");
   const [role, setRole] = useState("");
 
-  const { isOpen, onOpen, onClose } = useDisclosure(); 
-  
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const handleSearch = async () => {
     setIsLoading(true);
     try {
@@ -199,7 +199,6 @@ export default function EmployeeCard() {
             icon={<FiEdit />}
             aria-label="Edit"
             size="sm"
-
             variant="outline"
             position={"relative"}
             left={"50%"}
@@ -222,6 +221,7 @@ export default function EmployeeCard() {
               Status: status === "Active" ? 1 : status === "On Leave" ? 0 : 2,
               Role: role,
             }}
+            refreshData={handleSearch}
           />
         </Box>
       ) : null}

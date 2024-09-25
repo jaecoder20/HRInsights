@@ -15,8 +15,15 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import axios from "../api/axios";
+import Cookies from "js-cookie";
 
-export default function UpdateEmployeeModal({ isOpen, onClose, employeeData }) {
+export default function UpdateEmployeeModal({
+  isOpen,
+  onClose,
+  employeeData,
+  refreshData,
+}) {
   const [formData, setFormData] = useState(
     employeeData || {
       EmployeeId: "",
@@ -33,6 +40,7 @@ export default function UpdateEmployeeModal({ isOpen, onClose, employeeData }) {
   );
   const toast = useToast();
 
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -66,7 +74,8 @@ export default function UpdateEmployeeModal({ isOpen, onClose, employeeData }) {
         duration: 3000,
         isClosable: true,
       });
-      onClose(); 
+      refreshData();
+      onClose();
     } catch (error) {
       console.error(error);
       toast({
@@ -166,7 +175,9 @@ export default function UpdateEmployeeModal({ isOpen, onClose, employeeData }) {
               <FormLabel>Salary</FormLabel>
               <Input
                 type="number"
-                nChange={handleInputChange}
+                step={0.01}
+                onChange={handleInputChange}
+                value={formData.Salary}
                 placeholder="Enter salary"
               />
             </FormControl>

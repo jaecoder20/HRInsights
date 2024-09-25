@@ -99,8 +99,7 @@ namespace InsightsAPI.Repositories
 
         public async Task<Employee> UpdateEmployeeAsync(Employee employee)
         {
-            var existingEmployee = await _context.Employees.FindAsync(employee.EmployeeId);
-
+            var existingEmployee = await GetEmployeeAsync(employee.EmployeeId);
             if (existingEmployee == null)
             {
                 return null;

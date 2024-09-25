@@ -106,9 +106,9 @@ namespace InsightsAPI.Controllers
         }
         [Authorize(Roles = "HR Administrator")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Employee>> UpdateEmployee(int id, [FromBody] Employee employee)
+        public async Task<ActionResult<Employee>> UpdateEmployee(string id, [FromBody] Employee employee)
         {
-            if (id != employee.Id)
+            if (id != employee.EmployeeId)
             {
                 return BadRequest(new { message = "Employee ID mismatch." });
             }
