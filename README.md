@@ -77,3 +77,10 @@ There are some bugs that need to be ironed out but I ran out of time
 Employee Photos: Make sure that the photos are located in the public/uploads folder on your server.
 
 Security: Ensure that password hashes are stored securely in production, and replace the sample hashed passwords with actual secure hashed values.
+
+### Screenshots
+
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
