@@ -105,7 +105,7 @@ const EmployeesTable = () => {
           <Tr key={employee.email}>
             <Td>
               <HStack spacing="4">
-                <Avatar size="sm" src={employee.avatarUrl} />{" "}
+                <Avatar size="sm" src={employee.photoUrl} />{" "}
                 {/* Employee Avatar */}
                 <span>{employee.firstName + " " + employee.lastName}</span>
               </HStack>

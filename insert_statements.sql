@@ -47,3 +47,27 @@ INSERT INTO [HRInsightsDatabase].[dbo].[Employees]
   ([EmployeeId], [FirstName], [LastName], [Email], [PhoneNumber], [Position], [DateOfHire], [Salary], [Status], [Role], [PhotoUrl])
 VALUES
   ('EMP010', 'Olivia', 'Thomas', 'othomas@example.com', '555-012-3456', 'UI/UX Designer', '2019-10-30', 70000.00, 1, 'Employee', '../../public/uploads/woman5.jpg');
+INSERT INTO [HRInsightsDatabase].[dbo].[Users]
+  ([Username], [Email], [PasswordHash])
+VALUES
+  ('johndoe', 'johndoe@example.com', 'hashed_password_1');
+
+INSERT INTO [HRInsightsDatabase].[dbo].[Users]
+  ([Username], [Email], [PasswordHash])
+VALUES
+  ('janesmith', 'janesmith@example.com', 'hashed_password_2');
+
+INSERT INTO [HRInsightsDatabase].[dbo].[Users]
+  ([Username], [Email], [PasswordHash])
+VALUES
+  ('mjohnson', 'mjohnson@example.com', 'hashed_password_3');
+
+INSERT INTO [HRInsightsDatabase].[dbo].[Users]
+  ([Username], [Email], [PasswordHash])
+VALUES
+  ('edavis', 'edavis@example.com', 'hashed_password_4');
+
+INSERT INTO [HRInsightsDatabase].[dbo].[Users]
+  ([Username], [Email], [PasswordHash])
+VALUES
+  ('dwilson', 'dwilson@example.com', 'hashed_password_5');

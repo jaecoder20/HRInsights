@@ -11,7 +11,7 @@ export default function Home() {
   console.log(employee);
 
   const currUser = {
-    avatar: Image,
+    avatar: employee.photoUrl || Image,
     name: employee.firstName + " " + employee.lastName,
     accountType: employee.role,
   };

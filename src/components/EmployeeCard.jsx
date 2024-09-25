@@ -15,6 +15,7 @@ import axios from "../api/axios"; //
 import Cookies from "js-cookie"; //
 import { useDisclosure } from "@chakra-ui/react";
 import UpdateEmployeeModal from "./UpdateEmployeeModal";
+import { em } from "framer-motion/client";
 export default function EmployeeCard() {
   const [name, setName] = useState("");
   const [salary, setSalary] = useState("");
@@ -52,7 +53,7 @@ export default function EmployeeCard() {
       setEmployeeId(employee.employeeId);
       setName(employee.firstName + " " + employee.lastName);
       setSalary(employee.salary);
-      setAvatarUrl(employee.avatarUrl);
+      setAvatarUrl(employee.photoUrl);
       setEmail(employee.email);
       setPhoneNumber(employee.phoneNumber);
       setPosition(employee.position);
@@ -210,6 +211,7 @@ export default function EmployeeCard() {
             isOpen={isOpen}
             onClose={onClose}
             employeeData={{
+              photoUrl: avatarUrl,
               EmployeeId: employeeId,
               FirstName: name.split(" ")[0],
               LastName: name.split(" ")[1],

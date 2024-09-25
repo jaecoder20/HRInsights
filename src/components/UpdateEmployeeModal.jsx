@@ -26,6 +26,7 @@ export default function UpdateEmployeeModal({
 }) {
   const [formData, setFormData] = useState(
     employeeData || {
+      imageUrl: "",  
       EmployeeId: "",
       FirstName: "",
       LastName: "",
@@ -38,6 +39,9 @@ export default function UpdateEmployeeModal({
       Role: "",
     }
   );
+  console.log(formData);
+  console.log(employeeData);
+
   const toast = useToast();
   const [responseReceived, setResponseReceived] = useState("");
 
