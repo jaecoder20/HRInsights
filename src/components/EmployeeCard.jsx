@@ -13,7 +13,8 @@ import {
 } from "@chakra-ui/react";
 import axios from "../api/axios"; //
 import Cookies from "js-cookie"; //
-
+import { useDisclosure } from "@chakra-ui/react"; 
+import UpdateEmployeeModal from "./UpdateEmployeeModal"; 
 export default function EmployeeCard() {
   const [name, setName] = useState("");
   const [salary, setSalary] = useState("");
@@ -31,7 +32,8 @@ export default function EmployeeCard() {
   const [status, setStatus] = useState("");
   const [role, setRole] = useState("");
 
-  // Function to handle search
+  const { isOpen, onOpen, onClose } = useDisclosure(); 
+  
   const handleSearch = async () => {
     setIsLoading(true);
     try {
@@ -46,7 +48,6 @@ export default function EmployeeCard() {
       setMessageReceived(response.data.message);
       console.log(response.data);
 
-      // Assuming the response contains employee data
       const employee = response.data.employee;
       setEmployeeId(employee.employeeId);
       setName(employee.firstName + " " + employee.lastName);
@@ -198,10 +199,29 @@ export default function EmployeeCard() {
             icon={<FiEdit />}
             aria-label="Edit"
             size="sm"
+
             variant="outline"
             position={"relative"}
             left={"50%"}
             top={"20px"}
+            onClick={onOpen}
+          />
+          {/* PopupForm to update employee details */}
+          <UpdateEmployeeModal
+            isOpen={isOpen}
+            onClose={onClose}
+            employeeData={{
+              EmployeeId: employeeId,
+              FirstName: name.split(" ")[0],
+              LastName: name.split(" ")[1],
+              Email: email,
+              PhoneNumber: phoneNumber,
+              Position: position,
+              DateOfHire: dateOfHire,
+              Salary: salary,
+              Status: status === "Active" ? 1 : status === "On Leave" ? 0 : 2,
+              Role: role,
+            }}
           />
         </Box>
       ) : null}
