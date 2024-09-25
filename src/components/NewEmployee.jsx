@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "../api/axios";
 import Cookies from "js-cookie";
+import {saveAs} from "file-saver";
 
 export default function NewEmployee() {
   const [messsageReceived, setMessageReceived] = useState("");
@@ -25,8 +26,15 @@ export default function NewEmployee() {
     Salary: 0.0,
     Status: 0,
     Role: "",
+    PhotoUrl: "",
   });
   const toast = useToast();
+
+  const handleFileSave = (file) => {
+    const fileName = `${formData.FirstName.toLowerCase()}-${formData.LastName.toLowerCase()}.jpg`;
+    saveAs(file, fileName); 
+  };
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,11 +48,28 @@ export default function NewEmployee() {
           : value, // Leave other fields as strings
     }));
   };
+  const [file, setFile] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      let photoUrl = formData.PhotoUrl; 
+      if (file) {
+        const formDataImage = new FormData();
+        const photoFileName = `${formData.FirstName.toLowerCase()}-${formData.LastName.toLowerCase()}.jpg`;
+        formDataImage.append("file", file, photoFileName);
+
+        const uploadResponse = await axios.post("/api/upload", formDataImage, {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        photoUrl = `/uploads/${photoFileName}`;
+      }
+
       const response = await axios.post("/api/employee", formData, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -107,7 +132,7 @@ export default function NewEmployee() {
                   ...prevData,
                   Photo: e.target.files[0],
                 }))
-              } 
+              }
             />
             <FormLabel>Employee ID</FormLabel>
             <Input
