@@ -76,6 +76,7 @@ interface MobileProps extends FlexProps {
 interface SidebarProps extends BoxProps {
   onPageChange: (page: string) => void;
   onClose: () => void;
+  currentUser: string;
 }
 
 const LinkItems: Array<LinkItemProps> = [
@@ -85,8 +86,12 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Add Employee", icon: IoMdAdd },
   { name: "Settings", icon: FiSettings },
 ];
-
-const SidebarContent = ({ onClose, onPageChange, ...rest }: SidebarProps) => {
+const SidebarContent = ({
+  currentUser,
+  onClose,
+  onPageChange,
+  ...rest
+}: SidebarProps) => {
   const handleLinkClick = (page: string) => {
     onPageChange(page);
     onClose(); // Close the sidebar
@@ -107,16 +112,20 @@ const SidebarContent = ({ onClose, onPageChange, ...rest }: SidebarProps) => {
 
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem
-          marginTop="10px"
-          key={link.name}
-          icon={link.icon}
-          onClick={() => handleLinkClick(link.name)}
-        >
-          {link.name}
-        </NavItem>
-      ))}
+
+      {LinkItems.map(
+        (link) =>
+          (link.name !== "Add Employee" || currentUser !== "Employee") && (
+            <NavItem
+              marginTop="10px"
+              key={link.name}
+              icon={link.icon}
+              onClick={() => handleLinkClick(link.name)}
+            >
+              {link.name}
+            </NavItem>
+          )
+      )}
     </Box>
   );
 };
@@ -256,6 +265,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activePage, setActivePage] = useState("Home");
   const navigate = useNavigate();
+  const currUser = JSON.parse(Cookies.get("employee"));
 
   const handlePageChange = (page) => {
     setActivePage(page);
@@ -271,6 +281,7 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
         onPageChange={handlePageChange}
+        currentUser={currUser.role}
       />
       <Drawer
         isOpen={isOpen}
@@ -281,7 +292,11 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} onPageChange={handlePageChange} />
+          <SidebarContent
+            currentUser={currUser.role}
+            onClose={onClose}
+            onPageChange={handlePageChange}
+          />
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} handleSignOut={handleSignOut} user={user} />

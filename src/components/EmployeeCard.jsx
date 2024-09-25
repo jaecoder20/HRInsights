@@ -24,7 +24,7 @@ export default function EmployeeCard() {
   const [isLoading, setIsLoading] = useState(false);
   const [messageReceived, setMessageReceived] = useState("");
   const toast = useToast();
-
+  const currUser = JSON.parse(Cookies.get("employee"));
   const [employeeId, setEmployeeId] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -195,17 +195,19 @@ export default function EmployeeCard() {
               </Text>
             </Box>
           </Stack>
-          <IconButton
-            color={"orange"}
-            icon={<FiEdit />}
-            aria-label="Edit"
-            size="sm"
-            variant="outline"
-            position={"relative"}
-            left={"50%"}
-            top={"20px"}
-            onClick={onOpen}
-          />
+          {currUser.role === "HR Administrator" && (
+            <IconButton
+              color={"orange"}
+              icon={<FiEdit />}
+              aria-label="Edit"
+              size="sm"
+              variant="outline"
+              position={"relative"}
+              left={"50%"}
+              top={"20px"}
+              onClick={onOpen}
+            />
+          )}
           {/* PopupForm to update employee details */}
           <UpdateEmployeeModal
             isOpen={isOpen}
