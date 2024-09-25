@@ -95,6 +95,171 @@ These accounts have been seeded into the Users table.
 
 ![alt text](image-5.png)
 
+## API Documentation
+
+HRInsights exposes several RESTful APIs for managing HR data like employee records, attendance, and authentication. Below is a detailed overview of the available endpoints.
+
+---
+
+### Authentication
+
+#### **POST** `/api/auth/login/`
+- **Description**: Logs in a user and returns a JWT token for authentication.
+- **Request Body**:
+  ```json
+  {
+    "username": "string",
+    "password": "string"
+  }
+- **Response**:
+   ```json
+   {  
+      "token": "jwt_token"
+   }
+- **Example**:
+   ```bash
+   curl -X POST http://localhost:8000/api/auth/login/ -d '{
+      "username": "admin",
+      "password": "password123"
+   }'
+#### **POST** `/api/auth/register/`
+- **Description**: Registers a new user account.
+- **Request Body**:
+  ```json
+   {
+      "username": "string",
+      "email": "string",
+      "password": "string"
+   }
+- **Response**:
+   ```json
+   {  
+      "message": "User registered successfully."
+   }
+- **Example**:
+   ```bash
+   curl -X POST http://localhost:8000/api/auth/register/ -d '{
+      "username": "new_user",
+      "email": "new_user@example.com",
+      "password": "password123"
+   }'
+### Employee Management
+
+#### **GET** `/api/employees/`
+- **Description**: Retrieves a list of all employees.
+- **Response**:
+  ```json
+  {
+    "id": 1,
+    "name": "John Doe",
+    "position": "HR Manager",
+    "email": "john.doe@example.com"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "position": "Software Engineer",
+    "email": "jane.smith@example.com"
+  }
+- **Example**:
+   ```bash
+   curl -X GET http://localhost:8000/api/employees/
+#### **POST** `/api/employees/`
+- **Description**: Adds a new employee to the system.
+- **Request Body**:
+  ```json
+   {
+      "name": "string",
+      "position": "string",
+      "email": "string"
+   }
+- **Response**:
+   ```json
+   {
+      "id": 3,
+      "name": "Alice Johnson",
+      "position": "Marketing Specialist",
+      "email": "alice.johnson@example.com"
+   }
+- **Example**:
+   ```bash
+   curl -X POST http://localhost:8000/api/employees/ -d '{
+      "name": "Alice Johnson",
+      "position": "Marketing Specialist",
+      "email": "alice.johnson@example.com"
+   }'
+#### **DELETE** `/api/employees/{id}/`
+- **Description**: Deletes an employee with the sepecified ID.
+- **Response**:
+   ```json
+   {
+      "message": "Employee deleted successfully."
+   }
+- **Example**:
+   ```bash
+   curl -X DELETE http://localhost:8000/api/employees/1/
+
+### Attendance Tracking
+
+#### **POST** `/api/attendance/`
+- **Description**: Records the attendance of an employee
+- **Request Body**:
+  ```json
+  {
+     "employee_id": 1,
+      "date": "YYYY-MM-DD",
+      "status": "present"
+  }
+- **Response**:
+   ```json
+   {  
+      "message": "Attendance recorded successfully."
+   }
+- **Example**:
+   ```bash
+   curl -X POST http://localhost:8000/api/attendance/ -d '{
+  "employee_id": 1,
+  "date": "2023-09-23",
+  "status": "present"
+   }'
+#### **GET** `/api/attendance/`
+- **Description**: Retrieves the attendance records for all employees
+- **Response**:
+   ```json
+  {
+    "employee_id": 1,
+    "date": "2023-09-23",
+    "status": "present"
+  },
+  {
+    "employee_id": 2,
+    "date": "2023-09-23",
+    "status": "absent"
+  }
+- **Example**:
+   ```bash
+   curl -X GET http://localhost:8000/api/attendance/
+## REPORTS
+
+#### **GET** `/api/reports/attendance/`
+- **Description**: Fetches attendance reports for all employees
+- **Response**:
+   ```json
+   {
+      "employee_id": 1,
+      "name": "John Doe",
+      "present_days": 20,
+      "absent_days": 5
+  },
+  {
+      "employee_id": 2,
+      "name": "Jane Smith",
+      "present_days": 18,
+      "absent_days": 7
+  }
+- **Example**:
+   ```bash
+   curl -X GET http://localhost:8000/api/reports/attendance/
 ### Final Notes
 
 There are some bugs that need to be ironed out but I ran out of time
