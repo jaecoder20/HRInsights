@@ -1,5 +1,5 @@
 # Overview
-This is a full-stack Human Resources Information System (HRIS) project that allows managing employee data, including CRUD operations (Create, Read, Update, Delete), as well as file uploads for employee profile pictures. The system also supports different account roles (HR Administrator, Employee) to allow users with specific permissions to access different functionalities.
+This is a full-stack HR Insights project that allows managing employee data, including CRUD operations (Create, Read, Update, Delete), as well as file uploads for employee profile pictures. The system also supports different account roles (HR Administrator, Employee) to allow users with specific permissions to access different functionalities.
 
 ## Project Components
 - Backend: .NET Core API to handle employee data, authentication, and business logic.
