@@ -26,6 +26,7 @@ namespace InsightsAPI.Entities
         public required decimal Salary { get; set; }
         public required EmployeeStatus Status { get; set; }
         public string Role { get; set; }
+        public string PhotoUrl { get; set; }
     }
 
 }
