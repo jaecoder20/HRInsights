@@ -31,13 +31,13 @@ export default function NewEmployee() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
-        ...prevData,
-        [name]:
-          name === "Salary"
-            ? parseFloat(value) // Convert salary to decimal/float
-            : name === "Status"
-            ? parseInt(value) // Convert status to integer
-            : value, // Leave other fields as strings
+      ...prevData,
+      [name]:
+        name === "Salary"
+          ? parseFloat(value) // Convert salary to decimal/float
+          : name === "Status"
+          ? parseInt(value) // Convert status to integer
+          : value, // Leave other fields as strings
     }));
   };
 
@@ -97,6 +97,18 @@ export default function NewEmployee() {
       <form onSubmit={handleSubmit}>
         <Stack spacing={4}>
           <FormControl isRequired>
+            <FormLabel>Photo</FormLabel>
+            <Input
+              type="file"
+              name="Photo"
+              accept="image/*"
+              onChange={(e) =>
+                setFormData((prevData) => ({
+                  ...prevData,
+                  Photo: e.target.files[0],
+                }))
+              } 
+            />
             <FormLabel>Employee ID</FormLabel>
             <Input
               type="text"
