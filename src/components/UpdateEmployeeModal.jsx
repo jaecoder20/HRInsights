@@ -39,8 +39,8 @@ export default function UpdateEmployeeModal({
     }
   );
   const toast = useToast();
+  const [responseReceived, setResponseReceived] = useState("");
 
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -67,9 +67,10 @@ export default function UpdateEmployeeModal({
           },
         }
       );
+      setResponseReceived(response.data.message);
       console.log(response.data);
       toast({
-        title: "Employee updated successfully.",
+        title: responseReceived || "Employee updated successfully.",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -79,7 +80,7 @@ export default function UpdateEmployeeModal({
     } catch (error) {
       console.error(error);
       toast({
-        title: "Error updating employee.",
+        title: responseReceived || "Error updating employee.",
         description: "An error occurred while updating employee data.",
         status: "error",
         duration: 3000,
