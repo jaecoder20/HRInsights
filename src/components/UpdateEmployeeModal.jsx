@@ -214,6 +214,7 @@ export default function UpdateEmployeeModal({
                 value={formData.Role}
                 onChange={handleInputChange}
                 placeholder="Select role"
+                isDisabled //Prevent role from being changed
               >
                 <option value="HR Administrator">HR Administrator</option>
                 <option value="Employee">Employee</option>
