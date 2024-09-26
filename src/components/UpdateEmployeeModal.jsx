@@ -1,4 +1,5 @@
 import React from "react";
+import format from "date-fns/format";
 import {
   Select,
   Modal,
@@ -26,7 +27,7 @@ export default function UpdateEmployeeModal({
 }) {
   const [formData, setFormData] = useState(
     employeeData || {
-      imageUrl: "",  
+      imageUrl: "",
       EmployeeId: "",
       FirstName: "",
       LastName: "",
@@ -41,7 +42,7 @@ export default function UpdateEmployeeModal({
   );
   console.log(formData);
   console.log(employeeData);
-
+  const date = new Date(formData.DateOfHire); //will be used to convert date to correct format for date picker
   const toast = useToast();
   const [responseReceived, setResponseReceived] = useState("");
 
@@ -171,7 +172,7 @@ export default function UpdateEmployeeModal({
               <Input
                 type="date"
                 name="DateOfHire"
-                value={formData.DateOfHire}
+                value={format(date, "yyyy-MM-dd")}
                 onChange={handleInputChange}
               />
             </FormControl>
