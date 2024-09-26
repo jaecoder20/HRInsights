@@ -42,7 +42,9 @@ export default function UpdateEmployeeModal({
   );
   console.log(formData);
   console.log(employeeData);
-  const date = new Date(formData.DateOfHire); //will be used to convert date to correct format for date picker
+  const date = new Date(formData.DateOfHire); //will be used to convert date to correct format for 
+  // Ensure the DateOfHire is always in the correct format before submitting
+  const formattedDateOfHire = format(new Date(formData.DateOfHire), "yyyy-MM-dd");
   const toast = useToast();
   const [responseReceived, setResponseReceived] = useState("");
 
@@ -65,7 +67,10 @@ export default function UpdateEmployeeModal({
     try {
       const response = await axios.put(
         `/api/employee/${formData.EmployeeId}`,
-        formData,
+        {
+        ...formData,
+        DateOfHire: formattedDateOfHire, // Ensure date is formatted correctly
+        },
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
