@@ -180,6 +180,7 @@ export default function UpdateEmployeeModal({
               <FormLabel>Salary</FormLabel>
               <Input
                 type="number"
+                name="Salary"
                 step={0.01}
                 onChange={handleInputChange}
                 value={formData.Salary}
