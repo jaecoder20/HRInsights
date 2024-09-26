@@ -40,11 +40,18 @@ export default function UpdateEmployeeModal({
       Role: "",
     }
   );
-  console.log(formData);
-  console.log(employeeData);
-  const date = new Date(formData.DateOfHire); //will be used to convert date to correct format for 
+  const date = new Date(formData.DateOfHire); //will be used to convert date to correct format for
   // Ensure the DateOfHire is always in the correct format before submitting
-  const formattedDateOfHire = format(new Date(formData.DateOfHire), "yyyy-MM-dd");
+  const currUser = Cookies.get("employee")
+    ? JSON.parse(Cookies.get("employee"))
+    : null;
+  const isUserActive =
+    currUser.FirstName === formData.FirstName &&
+    currUser.LastName === formData.LastName; //Checks to see if the user is updating their own profile
+  const formattedDateOfHire = format(
+    new Date(formData.DateOfHire),
+    "yyyy-MM-dd"
+  );
   const toast = useToast();
   const [responseReceived, setResponseReceived] = useState("");
 
@@ -68,8 +75,8 @@ export default function UpdateEmployeeModal({
       const response = await axios.put(
         `/api/employee/${formData.EmployeeId}`,
         {
-        ...formData,
-        DateOfHire: formattedDateOfHire, // Ensure date is formatted correctly
+          ...formData,
+          DateOfHire: formattedDateOfHire, // Ensure date is formatted correctly
         },
         {
           headers: {
@@ -125,6 +132,7 @@ export default function UpdateEmployeeModal({
                 value={formData.FirstName}
                 onChange={handleInputChange}
                 placeholder="Enter first name"
+                isDisabled={isUserActive} //Prevent user from changing their own first name
               />
             </FormControl>
 
@@ -136,6 +144,7 @@ export default function UpdateEmployeeModal({
                 value={formData.LastName}
                 onChange={handleInputChange}
                 placeholder="Enter last name"
+                isDisabled={isUserActive} //Prevent user from changing their own last name
               />
             </FormControl>
 

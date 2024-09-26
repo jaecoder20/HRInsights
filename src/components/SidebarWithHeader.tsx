@@ -265,7 +265,9 @@ const SidebarWithHeader: React.FC<SidebarWithHeaderProps> = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activePage, setActivePage] = useState("Home");
   const navigate = useNavigate();
-  const currUser = JSON.parse(Cookies.get("employee"));
+  const currUser = Cookies.get("employee")
+    ? JSON.parse(Cookies.get("employee"))
+    : null;
 
   const handlePageChange = (page) => {
     setActivePage(page);
