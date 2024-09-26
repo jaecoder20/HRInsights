@@ -1,4 +1,5 @@
 import React from "react";
+import format from "date-fns/format";
 import {
   Select,
   Modal,
@@ -26,7 +27,7 @@ export default function UpdateEmployeeModal({
 }) {
   const [formData, setFormData] = useState(
     employeeData || {
-      imageUrl: "",  
+      imageUrl: "",
       EmployeeId: "",
       FirstName: "",
       LastName: "",
@@ -39,9 +40,18 @@ export default function UpdateEmployeeModal({
       Role: "",
     }
   );
-  console.log(formData);
-  console.log(employeeData);
-
+  const date = new Date(formData.DateOfHire); //will be used to convert date to correct format for
+  // Ensure the DateOfHire is always in the correct format before submitting
+  const currUser = Cookies.get("employee")
+    ? JSON.parse(Cookies.get("employee"))
+    : null;
+  const isUserActive =
+    currUser.FirstName === formData.FirstName &&
+    currUser.LastName === formData.LastName; //Checks to see if the user is updating their own profile
+  const formattedDateOfHire = format(
+    new Date(formData.DateOfHire),
+    "yyyy-MM-dd"
+  );
   const toast = useToast();
   const [responseReceived, setResponseReceived] = useState("");
 
@@ -64,7 +74,10 @@ export default function UpdateEmployeeModal({
     try {
       const response = await axios.put(
         `/api/employee/${formData.EmployeeId}`,
-        formData,
+        {
+          ...formData,
+          DateOfHire: formattedDateOfHire, // Ensure date is formatted correctly
+        },
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
@@ -119,6 +132,7 @@ export default function UpdateEmployeeModal({
                 value={formData.FirstName}
                 onChange={handleInputChange}
                 placeholder="Enter first name"
+                isDisabled={isUserActive} //Prevent user from changing their own first name
               />
             </FormControl>
 
@@ -130,6 +144,7 @@ export default function UpdateEmployeeModal({
                 value={formData.LastName}
                 onChange={handleInputChange}
                 placeholder="Enter last name"
+                isDisabled={isUserActive} //Prevent user from changing their own last name
               />
             </FormControl>
 
@@ -171,7 +186,7 @@ export default function UpdateEmployeeModal({
               <Input
                 type="date"
                 name="DateOfHire"
-                value={formData.DateOfHire}
+                value={format(date, "yyyy-MM-dd")}
                 onChange={handleInputChange}
               />
             </FormControl>
@@ -180,6 +195,7 @@ export default function UpdateEmployeeModal({
               <FormLabel>Salary</FormLabel>
               <Input
                 type="number"
+                name="Salary"
                 step={0.01}
                 onChange={handleInputChange}
                 value={formData.Salary}
@@ -207,6 +223,7 @@ export default function UpdateEmployeeModal({
                 value={formData.Role}
                 onChange={handleInputChange}
                 placeholder="Select role"
+                isDisabled //Prevent role from being changed
               >
                 <option value="HR Administrator">HR Administrator</option>
                 <option value="Employee">Employee</option>

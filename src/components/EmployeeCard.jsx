@@ -225,6 +225,7 @@ export default function EmployeeCard() {
               Status: status === "Active" ? 1 : status === "On Leave" ? 0 : 2,
               Role: role,
             }}
+            
             refreshData={handleSearch}
           />
         </Box>
