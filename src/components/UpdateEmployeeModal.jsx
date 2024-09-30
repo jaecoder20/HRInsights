@@ -46,8 +46,11 @@ export default function UpdateEmployeeModal({
     ? JSON.parse(Cookies.get("employee"))
     : null;
   const isUserActive =
-    currUser.FirstName === formData.FirstName &&
-    currUser.LastName === formData.LastName; //Checks to see if the user is updating their own profile
+    currUser.firstName.trim().toLowerCase() ===
+      formData.FirstName.trim().toLowerCase() &&
+    currUser.lastName.trim().toLowerCase() ===
+      formData.LastName.trim().toLowerCase(); //Checks to see if the user is updating their own profile
+  console.log(isUserActive);
   const formattedDateOfHire = format(
     new Date(formData.DateOfHire),
     "yyyy-MM-dd"
