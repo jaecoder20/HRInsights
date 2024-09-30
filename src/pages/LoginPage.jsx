@@ -2,7 +2,7 @@
 import React, { useState, useContext } from "react";
 import axios from "../api/axios";
 import Cookies from "js-cookie";
-import authContext from "../context/AuthProvider";
+//import authContext from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 
@@ -20,7 +20,6 @@ import {
   useColorModeValue,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { a } from "framer-motion/client";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -33,7 +32,9 @@ export default function LoginPage() {
   // State for error handling
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  
   const toast = useToast();
+
   // Email validation regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

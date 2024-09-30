@@ -116,7 +116,8 @@ namespace InsightsAPI.Controllers
                 return BadRequest(new { message = "Employee ID mismatch." });
             }
 
-            var updatedEmployee = await _employeeRepository.UpdateEmployeeAsync(employee);
+            // If the employee gets updated successfully, the repository will return the updated employee object
+            Employee updatedEmployee = await _employeeRepository.UpdateEmployeeAsync(employee);
 
             if (updatedEmployee == null)
             {
@@ -133,7 +134,7 @@ namespace InsightsAPI.Controllers
         [HttpDelete("{employeeId}")]
         public async Task<ActionResult> DeleteEmployee(string employeeId)
         {
-            var employee = await _employeeRepository.GetEmployeeAsync(employeeId);
+            Employee employee = await _employeeRepository.GetEmployeeAsync(employeeId);
 
             if (employee == null)
             {

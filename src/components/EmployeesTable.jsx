@@ -36,13 +36,24 @@ const EmployeesTable = () => {
           },
         });
         setEmployees(response.data.employees);
-        console.log(response.data);
-        console.log(response.data.employees);
-        console.log(employees);
+        setResponseReceived(response.data.message);
+        toast({
+          title: "Success",
+          description: responseReceived,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
         setLoading(false);
       } catch (err) {
-        console.log(err);
         setError(err.message);
+        toast({
+          title: "Failure",
+          description: err.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
         setLoading(false);
       }
     };
@@ -97,7 +108,8 @@ const EmployeesTable = () => {
           <Th>Email</Th>
           <Th>Position</Th>
           <Th>Status</Th>
-          {currUser.role === "HR Administrator" && <Th>Action</Th>} // If the user is an HR Administrator, show the Action column
+          {currUser.role === "HR Administrator" && <Th>Action</Th>} // If the
+          user is an HR Administrator, show the Action column
         </Tr>
       </Thead>
       <Tbody>
