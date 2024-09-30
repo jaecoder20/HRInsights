@@ -84,13 +84,13 @@ export default function LoginPage() {
         // setAuth({ token, employee });
 
         Cookies.set("employee", JSON.stringify(employee), {
-          expires: new Date(new Date().getTime() + 15 * 60 * 1000), // 15 minutes expiration
+          expires: new Date(new Date().getTime() + 5 * 60 * 1000), // 5 minutes expiration
           secure: true,
           sameSite: "Strict",
         });
 
         Cookies.set("token", token, {
-          expires: new Date(new Date().getTime() + 15 * 60 * 1000), // 15 minutes expiration
+          expires: new Date(new Date().getTime() + 5 * 60 * 1000), // 5 minutes expiration
           secure: true,
           sameSite: "Strict",
         });
