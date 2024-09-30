@@ -16,7 +16,7 @@ import {
   IconButton,
   HStack,
 } from "@chakra-ui/react";
-import { FiDelete, FiEdit } from "react-icons/fi";
+import { FiDelete } from "react-icons/fi";
 import axios from "../api/axios";
 
 const EmployeesTable = () => {
@@ -97,7 +97,7 @@ const EmployeesTable = () => {
           <Th>Email</Th>
           <Th>Position</Th>
           <Th>Status</Th>
-          {currUser.role === "HR Administrator" && <Th>Action</Th>}
+          {currUser.role === "HR Administrator" && <Th>Action</Th>} // If the user is an HR Administrator, show the Action column
         </Tr>
       </Thead>
       <Tbody>

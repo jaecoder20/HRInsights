@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Logo from "../assets/logo.png";
 import svgLogo from "../assets/logo.svg";
 import DashboardCards from "./DashboardCards";
 import { IoMdAdd } from "react-icons/io";
@@ -28,28 +27,18 @@ import {
   MenuItem,
   MenuList,
   Image,
-  SimpleGrid,
 } from "@chakra-ui/react";
 import {
   FiHome,
-  FiClock,
-  FiCompass,
-  FiStar,
   FiSettings,
   FiMenu,
   FiBell,
   FiChevronDown,
-  FiSmile,
-  FiUsers,
-  FiGrid,
-  FiUserCheck,
   FiSearch,
 } from "react-icons/fi";
 import { MdOutlinePersonOutline } from "react-icons/md";
 
 import { IconType } from "react-icons";
-import { BiMoneyWithdraw } from "react-icons/bi";
-import StatisticsCard from "./StatisticsCard";
 import EmployeesTable from "./EmployeesTable";
 import EmployeeCard from "./EmployeeCard";
 import NewEmployee from "./NewEmployee";

@@ -50,7 +50,6 @@ export default function UpdateEmployeeModal({
       formData.FirstName.trim().toLowerCase() &&
     currUser.lastName.trim().toLowerCase() ===
       formData.LastName.trim().toLowerCase(); //Checks to see if the user is updating their own profile
-  console.log(isUserActive);
   const formattedDateOfHire = format(
     new Date(formData.DateOfHire),
     "yyyy-MM-dd"
