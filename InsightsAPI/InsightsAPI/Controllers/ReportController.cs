@@ -19,7 +19,8 @@ namespace InsightsAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<Report>> GetReports()
         {
-            var report = await _reportRepository.GetReportsAsync();
+            //Repositories return the report object to indicate success
+            Report report = await _reportRepository.GetReportsAsync();
 
             if (report == null)
             {
