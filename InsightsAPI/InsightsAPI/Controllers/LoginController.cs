@@ -27,15 +27,21 @@ namespace InsightsAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Login([FromBody] LoginRequest login)
         {
-            var currentUser = await _userRepository.LoginUserAsync(login.Email, login.PasswordHash);
+            //returns the USer object if the user is found in the database (name and password math)
+            User currentUser = await _userRepository.LoginUserAsync(login.Email, login.PasswordHash);
 
             if (currentUser == null)
             {
                 return NotFound(new { message = "User not found." });
             }
-            var employeeAccount = await _employeeRepository.GetEmployeeByEmailAsync(currentUser.Email);
+            Employee employeeAccount = await _employeeRepository.GetEmployeeByEmailAsync(currentUser.Email);
+            
             if (employeeAccount == null)
             {
+                //Users should not be able to login if they have an exisiting user account but not an existing employee account
+                // There are some reasons why this is important:
+                // 1. Allowing a user to login without an employee account will cause inconsistencies because we need employee information to render certain data on the frontend, these are not stored in the User table
+                // 2. User Roles and Authorization are tied to the employee account, not the user account. And the role is factored into the generation of the token
                 return NotFound(new { 
                     message = "User email does not match an employee email", 
                 });
