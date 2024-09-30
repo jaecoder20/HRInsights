@@ -12,19 +12,31 @@ namespace InsightsAPI.Repositories
         }
         public async Task<Report> GetReportsAsync()
         {
-            int totalEmployees = await Task.Run(() => _context.Employees.Count());
-            int totalOnLeave = await Task.Run(() => _context.Employees.Where(x => x.Status == EmployeeStatus.OnLeave).Count());
-            int thirtyDayHires = await Task.Run(() => _context.Employees.Where(x => x.DateOfHire >= DateTime.Now.AddDays(-30)).Count());
-            int totalActive = await Task.Run(() => _context.Employees.Where(x => x.Status == EmployeeStatus.Active).Count());
-            Report report = new Report
+            try
             {
-                TotalActive = totalActive,
-                TotalEmployees = totalEmployees,
-                TotalOnLeave = totalOnLeave,
-                ThirtyDayHires = thirtyDayHires
-            };
+                // Get the total number of employees
+                int totalEmployees = await Task.Run(() => _context.Employees.Count());
+                // Get the total number of employees on leave
+                int totalOnLeave = await Task.Run(() => _context.Employees.Where(x => x.Status == EmployeeStatus.OnLeave).Count());
+                // Get the total number of employees hired in the last 30 days
+                int thirtyDayHires = await Task.Run(() => _context.Employees.Where(x => x.DateOfHire >= DateTime.Now.AddDays(-30)).Count());
+                // Get the total number of active employees
+                int totalActive = await Task.Run(() => _context.Employees.Where(x => x.Status == EmployeeStatus.Active).Count());
+                Report report = new Report
+                {
+                    TotalActive = totalActive,
+                    TotalEmployees = totalEmployees,
+                    TotalOnLeave = totalOnLeave,
+                    ThirtyDayHires = thirtyDayHires
+                };
 
-            return report;
+                return report;
+            }
+            catch (Exception ex)
+            {
+                // return null; regardless of the exception that occurs, returning null means failure
+                return null;
+            }
         }
     }
 }
