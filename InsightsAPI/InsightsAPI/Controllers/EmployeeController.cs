@@ -18,13 +18,14 @@ namespace InsightsAPI.Controllers
             _employeeRepository = employeeRepository;
         }
 
+        // Determines which employees have access based on their roles as stored in the database
         [Authorize(Roles = "HR Administrator, Employee")]
         [HttpGet("")]
         public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
-            var employees = await _employeeRepository.GetEmployeesAsync();
-
-            if (employees == null || !employees.Any())
+            List<Employee> employees = await _employeeRepository.GetEmployeesAsync();
+            bool noEmployees = employees == null || !employees.Any();
+            if (noEmployees)
             {
                 return NotFound(new { message = "No employees found." });
             }
@@ -40,9 +41,10 @@ namespace InsightsAPI.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<List<Employee>>> GetEmployee([FromQuery] string query)
         {
+            //First attempt search by Eployee ID
             if(!string.IsNullOrEmpty(query))
 {
-                var employeeById = await _employeeRepository.GetEmployeeAsync(query);  
+                Employee employeeById = await _employeeRepository.GetEmployeeAsync(query);  
                 if (employeeById != null)
                 {
                     return Ok(new
@@ -54,7 +56,7 @@ namespace InsightsAPI.Controllers
             }
 
 
-            // Search by name if ID search fails
+            // Search by name if Employee ID search fails (returns null)
             var employeeByName = await _employeeRepository.GetEmployeeByNameAsync(query);
             if (employeeByName != null)
             {
@@ -91,13 +93,14 @@ namespace InsightsAPI.Controllers
             {
                 return BadRequest(new { message = "Invalid employee data." });
             }
-
-            var addedEmployee = await _employeeRepository.AddEmployeeAsync(employee);
+            //If the employee is added successfully, then the repository will return the employee object
+            Employee addedEmployee = await _employeeRepository.AddEmployeeAsync(employee);
             if (addedEmployee == null)
             {
                 return BadRequest(new { message = "Error adding employee." });
             }
 
+            // Returns a 201 Status code with the employee information
             return CreatedAtAction(nameof(GetEmployee), new { id = addedEmployee.EmployeeId }, new
             {
                 message = "Employee successfully created.",
